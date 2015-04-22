@@ -11,6 +11,7 @@ namespace Ejercicio1
         const double COEF = 1073741823;
         static void Main(string[] args)
         {
+            //Generacion de cromosomas
             int[,] matriz = new int[10, 30];
             Random rnd = new Random();
             for (int i = 0; i < 10; i++)
@@ -23,9 +24,10 @@ namespace Ejercicio1
                 Console.WriteLine();
 
             }
+            Console.WriteLine("-------------------------------------");
+            //Transformacion de binario a decimal calculo de funcion y sumatoria
             double suma = 0;
-            double[] funcionespotencia = new double[10];
-            double[] fitness = new double[10];
+            double[] funcionpotencia = new double[10];
             for (int i = 0; i < 10; i++)
             {
                 string numerobinario = "";
@@ -35,24 +37,26 @@ namespace Ejercicio1
                     numerobinario = numerobinario + matriz[i, j].ToString();
                 }
                 int numero = Convert.ToInt32(numerobinario, 2);
-                Console.Write(numero);
-
-
-                funcionespotencia[i] = Math.Pow(numero / COEF, 2);
-
-                suma = suma + funcionespotencia[i];
-                Console.WriteLine(" " + funcionespotencia[i]);
+                Console.Write(numero + " -");
+                funcionpotencia[i] = Math.Pow(numero / COEF, 2);
+                suma = suma + funcionpotencia[i];
+                Console.WriteLine(" " + funcionpotencia[i]);
 
             }
+            Console.WriteLine();
+            Console.WriteLine(suma);
+            Console.WriteLine("-------------------------------");
+            //calculo de fitness en forma porcentual
+            double[] fitness = new double[10];
 
-            Console.WriteLine();
-            Console.WriteLine("Suma= " + suma);
-            Console.WriteLine();
             for (int i = 0; i < 10; i++)
             {
-                fitness[i] = funcionespotencia[i] / suma;
-                Console.WriteLine(fitness[i]);
+                fitness[i] = (funcionpotencia[i] / suma) * 100;
+                Console.WriteLine(Math.Round(fitness[i], 2) + "%");
+
             }
+
+
             Console.ReadLine();
 
 
