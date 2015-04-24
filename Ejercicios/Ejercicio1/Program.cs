@@ -10,7 +10,7 @@ namespace Ejercicio1
     {
         //Constantes        
         
-        const int CICLOS = 10;
+        const int CICLOS = 15;
         
         // Metodos
         static void Main(string[] args)

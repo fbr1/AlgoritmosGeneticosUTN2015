@@ -40,15 +40,11 @@ namespace Ejercicio1
             }
             else
             {
-                if(generaciones.Count<=ciclos){
+                if(generaciones.Count<ciclos){
                     Generacion gen = new Generacion(generaciones.Last().Poblacion, rnd);
                     generaciones.Add(gen);
                     Generacion gen2 = new Generacion(rnd, ciclos,ref generaciones);
-                }
-                else
-                {
-                    var g = 1;
-                }
+                }                
             }
         }        
         public Generacion(Individuo[] poblacion,Random rnd)
