@@ -32,9 +32,8 @@ namespace Ejercicio1
             {
                 Cromosoma[i] = rnd.Next(0, 2);
             }
-            ValorCromosoma = Convert.ToInt32(string.Join("", Cromosoma), 2);
-            FuncionObjetiva = Math.Pow(ValorCromosoma / COEF, 2);
-        }
+            this.generarValores();
+        }        
         public void generarValores(){
             ValorCromosoma = Convert.ToInt32(string.Join("", Cromosoma), 2);
             FuncionObjetiva = Math.Pow(ValorCromosoma / COEF, 2);

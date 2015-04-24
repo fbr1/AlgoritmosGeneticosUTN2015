@@ -29,23 +29,30 @@ namespace Ejercicio1
         {
             GenerarPoblacion(rnd);
         }
+        // Constructor para la recursividad
+        // Se tendria que cambiar a un metodo de clase o algo similar, no me gusta la forma que funciona
+        // Creo que en la pseudo recursividad hace pasos de mas, habría que fijarse de mejorarlo
         public Generacion(Random rnd,int ciclos,ref List<Generacion> generaciones)
         {
+            // Si es la primera vez que se crea el objeto
             if (generaciones.Count == 0)
             {
-                generaciones = new List<Generacion>();
+                // Crea el objeto y lo agrega a generaciones                
                 Generacion gen = new Generacion(rnd);
                 generaciones.Add(gen);
+                // Crea nueva generacion ya con una existente en generaciones
                 Generacion gen2= new Generacion(rnd,ciclos,ref generaciones);
             }
             else
             {
                 if(generaciones.Count<ciclos){
+                    // Crea nueva generacion pasando la poblacion de la ultima en la lista para realizar la seleccion-crossover-mutacion
                     Generacion gen = new Generacion(generaciones.Last().Poblacion, rnd);
                     generaciones.Add(gen);
                     Generacion gen2 = new Generacion(rnd, ciclos,ref generaciones);
                 }                
             }
+            // Hasta que el numero de ciclos se complete
         }        
         public Generacion(Individuo[] poblacion,Random rnd)
         {
@@ -54,19 +61,23 @@ namespace Ejercicio1
 
             Individuo[] seleccionados = new Individuo[POBLACION_SIZE];
 
+            // Genera fitnesAcumulado para simular la seleccion por ruleta
             double[] fitnessAcumulado = new double[POBLACION_SIZE];
             fitnessAcumulado[0] = poblacion[0].Fitness;            
 
             for (int i = 1; i < POBLACION_SIZE; i++)
             {
                 fitnessAcumulado[i] = fitnessAcumulado[i - 1] + poblacion[i].Fitness;
-            }            
+            }       
+     
+            // Selecciona que padre van a hacer crossover y en que orden
 
             for (int i = 0; i < POBLACION_SIZE; i++)
             {
 
                 double random_number = rnd.NextDouble() * fitnessAcumulado[fitnessAcumulado.Length - 1];
 
+                // Busca coincidencia de el numero buscado al azar dentro de fitness acumulado
                 int indice = Array.BinarySearch(fitnessAcumulado, random_number);
                 if (indice < 0)
                 {
@@ -79,9 +90,10 @@ namespace Ejercicio1
             GenerarPoblacion(nuevaGeneracion);
 
             // Crossover
-
+            // Para cada dos padres
             for (int i = 0; i < POBLACION_SIZE; i = i + 2)
             {
+                // Si se da la chance de crossover
                 if (rnd.NextDouble() <= PROB_CROSSOVER)
                 {
                     int posicion = rnd.Next(0, Individuo.CROMOSOMA_SIZE);
@@ -89,6 +101,8 @@ namespace Ejercicio1
                     int segundoPadre = i + 1;
                     for (int j = 0; j < Individuo.CROMOSOMA_SIZE; j++)
                     {
+                        // Cuando se llega al punto de corte, intercambia los padres para poder mezclar los dos cromosomas
+                        // El nombre de la variable no es muy representativo una vez que se realiza el cambio
                         if (posicion == j)
                         {
                             int temp = primerPadre;
@@ -100,8 +114,10 @@ namespace Ejercicio1
                         nuevaGeneracion[i + 1].Cromosoma[j] = seleccionados[segundoPadre].Cromosoma[j];
                     }
                     // Mutation
+                    // para cada uno de los hijos
                     for (int k = 0; k < 2; k++)
                     {
+                        // Si se da la chance de la mutacion
                         if (rnd.NextDouble() < PROB_MUTACION)
                         {
                             Mutar(nuevaGeneracion[i + k].Cromosoma, rnd);
@@ -110,6 +126,7 @@ namespace Ejercicio1
                 }
                 else
                 {
+                    // Si la chance no genera crossover los padres pasan a ser hijos
                     nuevaGeneracion[i] = seleccionados[i];
                     nuevaGeneracion[i + 1] = seleccionados[i + 1];
                 }
@@ -121,7 +138,7 @@ namespace Ejercicio1
             
         private void Mutar(int[] cromosoma, Random rnd)
         {
-            // Generate two random indices
+            // Generar dos indices aleatorios
             int comienzo = 0;
             int fin = 0;
 
@@ -131,7 +148,7 @@ namespace Ejercicio1
                 fin = rnd.Next(0, cromosoma.Length);
             } while (comienzo == fin);
 
-            // Check order
+            // Verificar orden
             if (comienzo > fin)
             {
                 int temp = comienzo;
@@ -139,7 +156,7 @@ namespace Ejercicio1
                 fin = temp;
             }
 
-            // Mutation 
+            // Mutar
             int[] copia = new int[cromosoma.Length];
             Array.Copy(cromosoma, copia, cromosoma.Length);
             int diferencia = fin - comienzo;
@@ -156,7 +173,8 @@ namespace Ejercicio1
             }
         }
         public void GenerarPoblacion(Random rnd)
-        {            
+        {   
+            // Si no esta generando la población inicial
             if (this.Poblacion == null)
             {
                 Individuo[] poblacion = new Individuo[POBLACION_SIZE];
@@ -167,7 +185,7 @@ namespace Ejercicio1
                 this.Poblacion = poblacion;
             }
             else
-            {
+            {                
                 foreach (Individuo ind in this.Poblacion)
                 {
                     ind.generarValores();

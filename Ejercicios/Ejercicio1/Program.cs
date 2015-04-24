@@ -17,7 +17,12 @@ namespace Ejercicio1
         {   
             List<Generacion> generaciones = new List<Generacion>();
             Random rnd = new Random();
+
+            //Crea las Generaciones 
+            //Creo que seria mejor usar un metodo de clase sobre la clase Generacion
             Generacion generacion = new Generacion(rnd, CICLOS, ref generaciones);
+
+            //Muestra las sucesivas Generaciones
             foreach (Generacion gen in generaciones)
             {
                 Console.WriteLine("--------------------------");
