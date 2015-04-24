@@ -35,6 +35,10 @@ namespace Ejercicio1
             ValorCromosoma = Convert.ToInt32(string.Join("", Cromosoma), 2);
             FuncionObjetiva = Math.Pow(ValorCromosoma / COEF, 2);
         }
+        public void generarValores(){
+            ValorCromosoma = Convert.ToInt32(string.Join("", Cromosoma), 2);
+            FuncionObjetiva = Math.Pow(ValorCromosoma / COEF, 2);
+        }
 
     }
 }
