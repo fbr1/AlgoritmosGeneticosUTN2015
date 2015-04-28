@@ -16,12 +16,14 @@ namespace Ejercicio1
         //Variables
         private Individuo[] _poblacion = new Individuo[POBLACION_SIZE];
         private double _suma = 0;
-        private double _maximo = 0;        
+        private double _maximo = 0;    
+        private double _minimo=Double.MaxValue;
 
         //Properties
         public Individuo[] Poblacion { get; set; }
         public double Suma { get { return _suma; } set { _suma = value; } }    
-        public double Maximo { get { return _maximo; } set { _maximo = value; } }        
+        public double Maximo { get { return _maximo; } set { _maximo = value; } }
+        public double Minimo { get { return _minimo; } set { _minimo = value; } }
         public int Ciclos { get; set; }
 
         //Methods
@@ -198,6 +200,10 @@ namespace Ejercicio1
                 if (ind.FuncionObjetiva > this.Maximo)
                 {
                     this.Maximo = ind.FuncionObjetiva;
+                }
+                if (ind.FuncionObjetiva < this.Minimo)
+                {
+                    this.Minimo = ind.FuncionObjetiva;
                 }
             }
             foreach (Individuo ind in this.Poblacion)
