@@ -35,7 +35,7 @@ namespace Ejercicio1
         // Se tendria que cambiar a un metodo de clase o algo similar, no me gusta la forma que funciona
         // Creo que en la pseudo recursividad hace pasos de mas, habría que fijarse de mejorarlo
         public Generacion(Random rnd,int ciclos,ref List<Generacion> generaciones)
-        {
+        {            
             // Si es la primera vez que se crea el objeto
             if (generaciones.Count == 0)
             {
@@ -114,58 +114,32 @@ namespace Ejercicio1
 
                         nuevaGeneracion[i].Cromosoma[j] = seleccionados[primerPadre].Cromosoma[j];
                         nuevaGeneracion[i + 1].Cromosoma[j] = seleccionados[segundoPadre].Cromosoma[j];
-                    }
-                    // Mutation
-                    // para cada uno de los hijos
-                    for (int k = 0; k < 2; k++)
-                    {
-                        // Si se da la chance de la mutacion
-                        if (rnd.NextDouble() < PROB_MUTACION)
-                        {
-                            Mutar(nuevaGeneracion[i + k].Cromosoma, rnd);
-                        }
-                    }
+                    }                    
                 }
                 else
                 {
                     // Si la chance no genera crossover los padres pasan a ser hijos
                     nuevaGeneracion[i] = seleccionados[i];
                     nuevaGeneracion[i + 1] = seleccionados[i + 1];
+                }               
+            }
+            // Mutation
+            for (int i = 0; i < POBLACION_SIZE; i++)
+            {
+                if (rnd.NextDouble() < PROB_MUTACION)
+                {
+                     Mutar(nuevaGeneracion[i].Cromosoma, rnd);
                 }
             }
             this.Poblacion = nuevaGeneracion;
             this.GenerarPoblacion(rnd);
-
         }
             
+        
         private void Mutar(int[] cromosoma, Random rnd)
-        {
-            // Generar dos indices aleatorios
-            int comienzo = 0;
-            int fin = 0;
-
-            do
-            {
-                comienzo = rnd.Next(0, cromosoma.Length);
-                fin = rnd.Next(0, cromosoma.Length);
-            } while (comienzo == fin);
-
-            // Verificar orden
-            if (comienzo > fin)
-            {
-                int temp = comienzo;
-                comienzo = fin;
-                fin = temp;
-            }
-
-            // Mutar
-            int[] copia = new int[cromosoma.Length];
-            Array.Copy(cromosoma, copia, cromosoma.Length);
-            int diferencia = fin - comienzo;
-            for (int i = 0; i < diferencia; i++)
-            {
-                cromosoma[comienzo + i] = copia[(fin - 1) - i];
-            }
+        {            
+            int posicion= rnd.Next(0, cromosoma.Length); 
+            cromosoma[posicion] = cromosoma[posicion] == 0 ? 1 : 0;            
         }
         private void GenerarPoblacion(Individuo[] poblacion)
         {
@@ -212,5 +186,35 @@ namespace Ejercicio1
             }    
             
         }
+       // Mutacion inversa
+       /* private void Mutar(int[] cromosoma, Random rnd)
+        {
+            // Generar dos indices aleatorios
+            int comienzo = 0;
+            int fin = 0;
+
+            do
+            {
+                comienzo = rnd.Next(0, cromosoma.Length);
+                fin = rnd.Next(0, cromosoma.Length);
+            } while (comienzo == fin);
+
+            // Verificar orden
+            if (comienzo > fin)
+            {
+                int temp = comienzo;
+                comienzo = fin;
+                fin = temp;
+            }
+
+            // Mutar
+            int[] copia = new int[cromosoma.Length];
+            Array.Copy(cromosoma, copia, cromosoma.Length);
+            int diferencia = fin - comienzo;
+            for (int i = 0; i < diferencia; i++)
+            {
+                cromosoma[comienzo + i] = copia[(fin - 1) - i];
+            }
+        }*/
     }  
 }

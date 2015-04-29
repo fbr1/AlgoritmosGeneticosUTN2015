@@ -10,7 +10,7 @@ namespace Ejercicio1
     {
         //Constantes        
         
-        const int CICLOS = 15;
+        const int CICLOS = 100;
         
         // Metodos
         static void Main(string[] args)
@@ -43,13 +43,14 @@ namespace Ejercicio1
 
             // Escribe los resultados en un archivo de texto
 
-            string stream="Iteracion,Suma,Maximo,Promedio,Minimo" + Environment.NewLine;            
+            string stream="Iteracion;Suma;Maximo;Promedio;Minimo" + Environment.NewLine;            
             int i = 0;
             System.IO.StreamWriter file = new System.IO.StreamWriter("test.csv");            
             foreach (Generacion gen in generaciones)
             {
                 i++;
-                stream = stream + i + "," + gen.Suma + "," + gen.Maximo + "," + gen.Suma / Generacion.POBLACION_SIZE + "," + gen.Minimo;
+                stream = stream + i + ";" + gen.Suma + ";" +gen.Maximo + ";" + gen.Suma / Generacion.POBLACION_SIZE + ";" + gen.Minimo;
+                
                 file.WriteLine(stream);
                 stream = "";
             }
