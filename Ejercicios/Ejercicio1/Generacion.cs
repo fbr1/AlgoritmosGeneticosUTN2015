@@ -13,17 +13,16 @@ namespace Ejercicio1
         public const double PROB_CROSSOVER = 0.75;
         public const double PROB_MUTACION = 0.05;
 
-        //Variables
-        private Individuo[] _poblacion = new Individuo[POBLACION_SIZE];
+        //Variables        
         private double _suma = 0;
         private double _maximo = 0;    
-        private double _minimo=Double.MaxValue;
+        private double _minimo=Double.MaxValue;        
 
         //Properties
         public Individuo[] Poblacion { get; set; }
         public double Suma { get { return _suma; } set { _suma = value; } }    
         public double Maximo { get { return _maximo; } set { _maximo = value; } }
-        public double Minimo { get { return _minimo; } set { _minimo = value; } }
+        public double Minimo { get { return _minimo; } set { _minimo = value; } }       
         public int Ciclos { get; set; }
 
         //Methods
@@ -58,7 +57,10 @@ namespace Ejercicio1
         }        
         public Generacion(Individuo[] poblacion,Random rnd)
         {
-            this.Poblacion = poblacion;            
+            this.Poblacion = poblacion;
+            Individuo[] copia = new Individuo[poblacion.Length];                
+            Array.Copy(poblacion, copia, poblacion.Length);
+         
             // Selection
 
             Individuo[] seleccionados = new Individuo[POBLACION_SIZE];
@@ -93,7 +95,7 @@ namespace Ejercicio1
 
             // Crossover
             // Para cada dos padres
-            for (int i = 0; i < POBLACION_SIZE; i = i + 2)
+            for (int i = 0; i < POBLACION_SIZE-2; i = i + 2)
             {
                 // Si se da la chance de crossover
                 if (rnd.NextDouble() <= PROB_CROSSOVER)
@@ -124,13 +126,33 @@ namespace Ejercicio1
                 }               
             }
             // Mutation
-            for (int i = 0; i < POBLACION_SIZE; i++)
+            for (int i = 0; i < POBLACION_SIZE-2; i++)
             {
                 if (rnd.NextDouble() < PROB_MUTACION)
                 {
                      Mutar(nuevaGeneracion[i].Cromosoma, rnd);
                 }
-            }
+            }  
+
+            // Elitismo            
+            Individuo max1 = new Individuo();
+            Individuo max2 = new Individuo();
+            max1.Fitness = 0;
+            max2.Fitness = 0;
+            for (int i = 0; i < POBLACION_SIZE; i++)
+            {
+                if (copia[i].Fitness > max1.Fitness)
+                {
+                    max2 = max1;
+                    max1 = copia[i];
+                }
+                else if ((copia[i].Fitness != max1.Fitness) && (copia[i].Fitness > max2.Fitness)){                
+                    max2 = copia[i];
+                }
+            }            
+            nuevaGeneracion[8] = max1;
+            nuevaGeneracion[9] = max2;
+
             this.Poblacion = nuevaGeneracion;
             this.GenerarPoblacion(rnd);
         }
@@ -161,15 +183,15 @@ namespace Ejercicio1
                 this.Poblacion = poblacion;
             }
             else
-            {                
-                foreach (Individuo ind in this.Poblacion)
+            {   
+                for (int i = 0; i < POBLACION_SIZE - 2; i++)
                 {
-                    ind.generarValores();
+                    this.Poblacion[i].generarValores();
                 }
-            }            
-
+            }
+            this.Suma = 0;
             foreach (Individuo ind in this.Poblacion)
-            {
+            {                
                 this.Suma = this.Suma + ind.FuncionObjetiva;
                 if (ind.FuncionObjetiva > this.Maximo)
                 {
@@ -180,10 +202,10 @@ namespace Ejercicio1
                     this.Minimo = ind.FuncionObjetiva;
                 }
             }
-            foreach (Individuo ind in this.Poblacion)
+            for (int i = 0; i < POBLACION_SIZE - 2; i++)
             {
-                ind.Fitness = ind.FuncionObjetiva / this.Suma;
-            }    
+                this.Poblacion[i].Fitness = this.Poblacion[i].FuncionObjetiva / this.Suma;
+            } 
             
         }
        // Mutacion inversa

@@ -37,7 +37,7 @@ namespace Ejercicio1
                 Console.WriteLine();
                 Console.WriteLine("Suma= " + gen.Suma);
                 Console.WriteLine("Promedio= " + gen.Suma / Generacion.POBLACION_SIZE);
-                Console.WriteLine("Maximo= " + gen.Maximo);
+                Console.WriteLine("Maximo= " + gen.Maximo);               
                 Console.WriteLine(); 
             }
 
