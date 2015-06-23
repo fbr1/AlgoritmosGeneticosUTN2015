@@ -10,6 +10,7 @@ namespace EjercicioMochila
     static class Program
     {
         const double VOLUMEN_MAXIMO = 4200;
+        const int CANT_OBJETOS = 10;
         static void Main(string[] args)
         {
             Console.WriteLine("\nAlgortimo Greedy\n");
@@ -36,14 +37,14 @@ namespace EjercicioMochila
                 Console.Out.WriteLine(o.Volumen + " " + o.Valor + " " + o.ValorPorVol);
             }
 
-            Console.WriteLine("\nAlgortimo Exaustivo\n");
+            Console.WriteLine("\nAlgortimo Exhaustivo\n");
 
             double count = Math.Pow(2, objetos.Count); // Cantidad de iteraciones             
-            Int32[] CromosomaMaximo = new Int32[10]; 
+            Int32[] CromosomaMaximo = new Int32[CANT_OBJETOS]; 
             double valormaximo = 0;
             for (int i = 0; i < count-1; i++)
             { // Para cada una de las posibilidades incluyendo repeticion
-                Int32[] cromosoma = ToBinary(i); // Convierte el indice en binario
+                Int32[] cromosoma = ToBinary(i,CANT_OBJETOS); // Convierte el indice en binario
                 double sumaVolumen = 0;
                 double sumaValor = 0;
                 for (int j = 0; j < cromosoma.Length; j++) // Para cada item del cromosoma
@@ -59,7 +60,7 @@ namespace EjercicioMochila
                     CromosomaMaximo = cromosoma;
                 }                             
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < CromosomaMaximo.Length; i++)
             {
                 if (CromosomaMaximo[i] == 1)
                 {
@@ -72,10 +73,10 @@ namespace EjercicioMochila
             Console.ReadLine(); 
        
         }       
-        public static Int32[] ToBinary(int num)
+        public static Int32[] ToBinary(int num,int max_size)
         {
             string s = Convert.ToString(num, 2);
-            char[] bits = s.PadLeft(10, '0').ToCharArray();
+            char[] bits = s.PadLeft(max_size, '0').ToCharArray();
             return Array.ConvertAll(bits, x => int.Parse(x.ToString()));            
         }        
         
