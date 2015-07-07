@@ -8,11 +8,13 @@ namespace EjercicioMochila
 {
     class Objeto : IComparable<Objeto>
     {
+        public int Numero { get; set; }
         public double Volumen { get; set; }
         public double Valor { get; set; }
         public double ValorPorVol { get; set; }
-        public Objeto(double volumen, double valor)
+        public Objeto(int numero,double volumen, double valor)
         {
+            this.Numero = numero;
             this.Volumen = volumen;
             this.Valor = valor;
             this.ValorPorVol = this.Valor / this.Volumen;

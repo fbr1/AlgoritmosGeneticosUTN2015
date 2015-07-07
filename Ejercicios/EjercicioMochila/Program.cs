@@ -12,30 +12,41 @@ namespace EjercicioMochila
         const double VOLUMEN_MAXIMO = 4200;
         const int CANT_OBJETOS = 10;
         static void Main(string[] args)
-        {
+        {   
             Console.WriteLine("\nAlgortimo Greedy\n");
 
             List<Objeto> objetos = new List<Objeto>(10);
-            objetos.Add(new Objeto(150, 20));
-            objetos.Add(new Objeto(325, 40));
-            objetos.Add(new Objeto(600, 50));
-            objetos.Add(new Objeto(805, 36));
-            objetos.Add(new Objeto(430, 25));
-            objetos.Add(new Objeto(1200, 64));
-            objetos.Add(new Objeto(770, 54));
-            objetos.Add(new Objeto(60, 18));
-            objetos.Add(new Objeto(930, 46));
-            objetos.Add(new Objeto(353, 28));
+            objetos.Add(new Objeto(1,150, 20));
+            objetos.Add(new Objeto(2,325, 40));
+            objetos.Add(new Objeto(3,600, 50));
+            objetos.Add(new Objeto(4,805, 36));
+            objetos.Add(new Objeto(5,430, 25));
+            objetos.Add(new Objeto(6,1200, 64));
+            objetos.Add(new Objeto(7,770, 54));
+            objetos.Add(new Objeto(8,60, 18));
+            objetos.Add(new Objeto(9,930, 46));
+            objetos.Add(new Objeto(10,353, 28));
 
             objetos.Sort();
             objetos.Reverse();
-            double suma = 0;
+            double volumen = 0;
+            double valor = 0;
+            Console.Out.WriteLine("Nro\tVolumen\tValor\t");
             foreach (Objeto o in objetos)
             {
-                suma = suma + o.Volumen;
-                if (suma > VOLUMEN_MAXIMO) break;
-                Console.Out.WriteLine(o.Volumen + " " + o.Valor + " " + o.ValorPorVol);
+                volumen = volumen + o.Volumen;
+                valor = valor + o.Valor;
+                if (volumen > VOLUMEN_MAXIMO)
+                {
+                    volumen = volumen - o.Volumen;
+                    valor = valor - o.Valor;
+                    break;
+                }                
+                Console.Out.WriteLine(o.Numero + "\t" + o.Volumen + "\t" + o.Valor);
             }
+
+            Console.WriteLine("\nVolumen Total: " + volumen + " , Valor Total: " + valor);
+            
 
             Console.WriteLine("\nAlgortimo Exhaustivo\n");
 
@@ -60,15 +71,22 @@ namespace EjercicioMochila
                     CromosomaMaximo = cromosoma;
                 }                             
             }
+
+            volumen = 0;
+            valor = 0;
+            Console.Out.WriteLine("Nro\tVolumen\tValor\t");
             for (int i = 0; i < CromosomaMaximo.Length; i++)
             {
                 if (CromosomaMaximo[i] == 1)
                 {
-                    Console.Out.WriteLine(objetos[i].Volumen + " " + objetos[i].Valor + " " + objetos[i].ValorPorVol);
+                    volumen = volumen + objetos[i].Volumen;
+                    valor = valor + objetos[i].Valor;
+                    Console.Out.WriteLine(objetos[i].Numero + "\t" + objetos[i].Volumen + "\t" + objetos[i].Valor);
                 }
+            }
 
-
-            } 
+            Console.WriteLine("\nVolumen Total: " + volumen + " , Valor Total: " + valor);
+            
            
             Console.ReadLine(); 
        
