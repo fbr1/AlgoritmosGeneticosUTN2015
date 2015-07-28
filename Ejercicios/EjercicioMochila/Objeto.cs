@@ -8,20 +8,21 @@ namespace EjercicioMochila
 {
     class Objeto : IComparable<Objeto>
     {
+        static int ultNumero = 1;
         public int Numero { get; set; }
         public double Volumen { get; set; }
         public double Valor { get; set; }
         public double ValorPorVol { get; set; }
-        public Objeto(int numero,double volumen, double valor)
+        public Objeto(double volumen, double valor)
         {
-            this.Numero = numero;
+            this.Numero = ultNumero;
             this.Volumen = volumen;
             this.Valor = valor;
             this.ValorPorVol = this.Valor / this.Volumen;
+            ultNumero++;
         }
         public int CompareTo(Objeto compareObjeto)
-        {
-            // A null value means that this object is greater.
+        {            
             if (compareObjeto == null)
                 return 1;
 
