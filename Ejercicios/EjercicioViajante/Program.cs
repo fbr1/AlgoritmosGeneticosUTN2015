@@ -16,20 +16,13 @@ namespace EjercicioViajante
         static void Main(string[] args)
         {
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);            
-            Application.Run(new FormularioPrincipal());
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new FormularioPrincipal());  
+
             int[,] distancia = GetDistanceMatrix();
+                        
             if (distancia != null)
             {
-                for (int i = 0; i < SIZE; i++)
-                {
-                    for (int j = 0; j < SIZE; j++)
-                    {
-                        Console.Out.Write(distancia[i, j] + "\t");
-                    }
-                    Console.Out.WriteLine();
-                }
-
                 Heuristico algoritmo = new Heuristico(distancia);
                 List<Individuo.Provincias> recorrido = algoritmo.getRecorrido(Individuo.Provincias.BUENOS_AIRES);
                 foreach (Individuo.Provincias prov in recorrido)
@@ -42,11 +35,7 @@ namespace EjercicioViajante
 
             Console.ReadLine();
 
-
-
-
-
-
+            
         }
 
         // Leer matriz de distancias
