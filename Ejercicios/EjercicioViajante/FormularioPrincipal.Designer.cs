@@ -1,4 +1,6 @@
-﻿namespace EjercicioViajante
+﻿using System.Collections.Generic;
+
+namespace EjercicioViajante
 {
     partial class FormularioPrincipal
     {
@@ -35,14 +37,26 @@
             this.rbHeuristico = new System.Windows.Forms.RadioButton();
             this.rbGenetico = new System.Windows.Forms.RadioButton();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.txtProvincia = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnGo = new System.Windows.Forms.Button();
+            this.btnLimpiar = new System.Windows.Forms.Button();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.imArgentina = new DotNetOpenSource.Controls.ImageMap();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblDistanciaRecorrida = new System.Windows.Forms.Label();
             this.txtDistanciaRecorrida = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblProvincias = new System.Windows.Forms.Label();
+            this.txtListadoProv = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
+            this.flowLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
+            this.flowLayoutPanel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -50,7 +64,7 @@
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.imArgentina, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel3, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -58,23 +72,26 @@
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(620, 567);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(538, 581);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.09146F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.90854F));
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 245F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel2, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel4, 2, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(614, 34);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(532, 34);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // flowLayoutPanel1
@@ -85,12 +102,13 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(240, 28);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(239, 28);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // rbExhaustivo
             // 
             this.rbExhaustivo.AutoSize = true;
+            this.rbExhaustivo.Checked = true;
             this.rbExhaustivo.Location = new System.Drawing.Point(3, 3);
             this.rbExhaustivo.Name = "rbExhaustivo";
             this.rbExhaustivo.Size = new System.Drawing.Size(77, 17);
@@ -98,6 +116,7 @@
             this.rbExhaustivo.TabStop = true;
             this.rbExhaustivo.Text = "Exhaustivo";
             this.rbExhaustivo.UseVisualStyleBackColor = true;
+            this.rbExhaustivo.CheckedChanged += new System.EventHandler(this.rbExhaustivo_CheckedChanged);
             // 
             // rbHeuristico
             // 
@@ -121,31 +140,90 @@
             this.rbGenetico.TabStop = true;
             this.rbGenetico.Text = "Genético";
             this.rbGenetico.UseVisualStyleBackColor = true;
+            this.rbGenetico.CheckedChanged += new System.EventHandler(this.rbGenetico_CheckedChanged);
             // 
             // flowLayoutPanel2
             // 
+            this.flowLayoutPanel2.Controls.Add(this.txtProvincia);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(249, 3);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(248, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(362, 28);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(109, 28);
             this.flowLayoutPanel2.TabIndex = 1;
+            // 
+            // txtProvincia
+            // 
+            this.txtProvincia.Location = new System.Drawing.Point(3, 3);
+            this.txtProvincia.Name = "txtProvincia";
+            this.txtProvincia.ReadOnly = true;
+            this.txtProvincia.Size = new System.Drawing.Size(103, 20);
+            this.txtProvincia.TabIndex = 0;
+            this.txtProvincia.Visible = false;
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.Controls.Add(this.btnGo);
+            this.flowLayoutPanel4.Controls.Add(this.btnLimpiar);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(363, 3);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(163, 28);
+            this.flowLayoutPanel4.TabIndex = 2;
+            // 
+            // btnGo
+            // 
+            this.btnGo.Location = new System.Drawing.Point(3, 3);
+            this.btnGo.Name = "btnGo";
+            this.btnGo.Size = new System.Drawing.Size(75, 23);
+            this.btnGo.TabIndex = 0;
+            this.btnGo.Text = "Go!";
+            this.btnGo.UseVisualStyleBackColor = true;
+            this.btnGo.Click += new System.EventHandler(this.btnGo_Click);
+            // 
+            // btnLimpiar
+            // 
+            this.btnLimpiar.Location = new System.Drawing.Point(84, 3);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpiar.TabIndex = 1;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.imArgentina, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel5, 1, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 43);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(532, 491);
+            this.tableLayoutPanel3.TabIndex = 3;
             // 
             // imArgentina
             // 
+            this.imArgentina.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imArgentina.Image = null;
-            this.imArgentina.Location = new System.Drawing.Point(3, 43);
+            this.imArgentina.Location = new System.Drawing.Point(3, 3);
             this.imArgentina.Name = "imArgentina";
-            this.imArgentina.Size = new System.Drawing.Size(550, 491);
+            this.imArgentina.Size = new System.Drawing.Size(294, 485);
             this.imArgentina.TabIndex = 1;
+            this.imArgentina.RegionClick += new DotNetOpenSource.Controls.ImageMap.RegionClickDelegate(this.imArgentina_RegionClick);
             this.imArgentina.Paint += new System.Windows.Forms.PaintEventHandler(this.imArgentina_Paint);
             // 
             // flowLayoutPanel3
             // 
             this.flowLayoutPanel3.Controls.Add(this.lblDistanciaRecorrida);
             this.flowLayoutPanel3.Controls.Add(this.txtDistanciaRecorrida);
+            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 540);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(447, 24);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(532, 38);
             this.flowLayoutPanel3.TabIndex = 2;
             // 
             // lblDistanciaRecorrida
@@ -162,14 +240,42 @@
             // 
             this.txtDistanciaRecorrida.Location = new System.Drawing.Point(109, 3);
             this.txtDistanciaRecorrida.Name = "txtDistanciaRecorrida";
+            this.txtDistanciaRecorrida.ReadOnly = true;
             this.txtDistanciaRecorrida.Size = new System.Drawing.Size(100, 20);
             this.txtDistanciaRecorrida.TabIndex = 1;
+            // 
+            // flowLayoutPanel5
+            // 
+            this.flowLayoutPanel5.Controls.Add(this.lblProvincias);
+            this.flowLayoutPanel5.Controls.Add(this.txtListadoProv);
+            this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(303, 3);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(126, 485);
+            this.flowLayoutPanel5.TabIndex = 2;
+            // 
+            // lblProvincias
+            // 
+            this.lblProvincias.Location = new System.Drawing.Point(3, 0);
+            this.lblProvincias.Name = "lblProvincias";
+            this.lblProvincias.Size = new System.Drawing.Size(123, 23);
+            this.lblProvincias.TabIndex = 0;
+            this.lblProvincias.Text = "Provincias";
+            // 
+            // txtListadoProv
+            // 
+            this.txtListadoProv.Location = new System.Drawing.Point(3, 26);
+            this.txtListadoProv.Multiline = true;
+            this.txtListadoProv.Name = "txtListadoProv";
+            this.txtListadoProv.ReadOnly = true;
+            this.txtListadoProv.Size = new System.Drawing.Size(126, 459);
+            this.txtListadoProv.TabIndex = 1;
             // 
             // FormularioPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(620, 567);
+            this.ClientSize = new System.Drawing.Size(538, 581);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "FormularioPrincipal";
             this.Text = "FormularioPrincipal";
@@ -177,8 +283,14 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
+            this.flowLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.PerformLayout();
+            this.flowLayoutPanel5.ResumeLayout(false);
+            this.flowLayoutPanel5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -187,6 +299,7 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.RadioButton rbExhaustivo;
         private System.Windows.Forms.RadioButton rbHeuristico;
@@ -196,5 +309,12 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.Label lblDistanciaRecorrida;
         private System.Windows.Forms.TextBox txtDistanciaRecorrida;
+        private System.Windows.Forms.TextBox txtProvincia;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
+        private System.Windows.Forms.Button btnGo;
+        private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
+        private System.Windows.Forms.Label lblProvincias;
+        private System.Windows.Forms.TextBox txtListadoProv;
     }
 }

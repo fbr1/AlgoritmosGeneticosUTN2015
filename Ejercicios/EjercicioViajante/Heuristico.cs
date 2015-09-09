@@ -8,34 +8,32 @@ namespace EjercicioViajante
 {
     class Heuristico
     {
-        public Individuo.Provincias ProvinciaInicial { get; set; }
+        public Provincia ProvinciaInicial { get; set; }
         public int[,] Distancia { get; set; }
         public int LongitudRecorrido { get; set; }
-        public List<Individuo.Provincias> Recorrido { get; set; }
+        public List<Provincia> Provincias { get; set; }
+        public List<Provincia> Recorrido { get; set; }
 
-        public Heuristico(int[,] distancia)
+        public Heuristico(int[,] distancia, List<Provincia> provincias)
         {
             this.Distancia = distancia;
-        }
-        public Heuristico(int[,] distancia, Individuo.Provincias provincia) : this(distancia)
-        {
-            this.ProvinciaInicial = provincia;
+            this.Provincias = provincias;
         }
 
         // Devuelve el recorrido minimo segun la la provincia inical
-        public List<Individuo.Provincias> getRecorrido(Individuo.Provincias provinciaInicial)
+        public List<Provincia> getRecorrido(Provincia provinciaInicial)
         {
 
-            List<Individuo.Provincias> recorrido = new List<Individuo.Provincias>();
+            List<Provincia> recorrido = new List<Provincia>();
             recorrido.Add(provinciaInicial);
 
             byte[] visitadas = new byte[23];
-            visitadas[(int)provinciaInicial] = 1;
+            visitadas[provinciaInicial.ID] = 1;
 
-            Individuo.Provincias ultimaVisitada = provinciaInicial;
+            Provincia ultimaVisitada = provinciaInicial;
 
 
-            int cantProvincias = Enum.GetNames(typeof(Individuo.Provincias)).Length;
+            int cantProvincias = this.Provincias.Count;
 
             int longitudRecorrido = 0;
 
@@ -50,19 +48,19 @@ namespace EjercicioViajante
                     if (visitadas[j] == 0)
                     {
                         // Si la distancia a la provincia j es menor que la ultima minima distancia
-                        if (Distancia[(int)ultimaVisitada, j] < minDistancia)
+                        if (Distancia[ultimaVisitada.ID, j] < minDistancia)
                         {
-                            minDistancia = Distancia[(int)ultimaVisitada, j];
+                            minDistancia = Distancia[ultimaVisitada.ID, j];
                             minDistanciaProvincia = j;
                         }
                     }
                 }
                 longitudRecorrido += minDistancia;
                 visitadas[minDistanciaProvincia] = 1;
-                recorrido.Add((Individuo.Provincias)minDistanciaProvincia);
+                recorrido.Add(this.Provincias.Find(x => x.ID== minDistanciaProvincia));
 
             }
-            this.LongitudRecorrido = longitudRecorrido + Distancia[(int)recorrido.Last(), (int)provinciaInicial];
+            this.LongitudRecorrido = longitudRecorrido + Distancia[recorrido.Last().ID, provinciaInicial.ID];
 
             recorrido.Add(provinciaInicial);
 
@@ -70,14 +68,13 @@ namespace EjercicioViajante
             return recorrido;
 
         }
-        public List<Individuo.Provincias> getBestRecorrido()
-        {
-            List<Individuo.Provincias> provincias = Enum.GetValues(typeof(Individuo.Provincias)).Cast<Individuo.Provincias>().ToList();
+        public List<Provincia> getBestRecorrido()
+        {            
             int distanciaMin = 99999999;
-            List<Individuo.Provincias> mejorRecorrido = null;
-            foreach (Individuo.Provincias prov in provincias)
+            List<Provincia> mejorRecorrido = null;
+            foreach (Provincia prov in this.Provincias)
             {
-                List<Individuo.Provincias> recorrido = getRecorrido(prov);
+                List<Provincia> recorrido = getRecorrido(prov);
                 if (LongitudRecorrido < distanciaMin)
                 {
                     mejorRecorrido = recorrido;
