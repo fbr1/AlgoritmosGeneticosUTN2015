@@ -4,9 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EjercicioViajante
+namespace EjercicioViajante 
 {
-    class Genetico 
-    {
+    class Genetico : Algoritmo
+    {       
+
+        public Genetico(int[,] distancia, List<Provincia> provincias):base(distancia,provincias)
+        {
+        }
+
+        public override List<Provincia> getRecorrido()
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

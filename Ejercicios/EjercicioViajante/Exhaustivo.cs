@@ -6,19 +6,18 @@ using System.Threading.Tasks;
 
 namespace EjercicioViajante
 {
-    class Exhaustivo 
+    class Exhaustivo : Algoritmo
     {
         const int VACIO = 9999;
-        const int SIZE = 5;
-        public Exhaustivo(int[,] distancia)
-        {            
-            if (distancia != null)
-            {
-                
-            }
+        const int SIZE = 5;        
 
-            Console.ReadLine();
+        public Exhaustivo(int[,] distancia, List<Provincia> provincias):base(distancia,provincias)
+        {            
         }
-        
+
+        public override List<Provincia> getRecorrido()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

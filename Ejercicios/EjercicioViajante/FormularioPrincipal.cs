@@ -14,17 +14,30 @@ namespace EjercicioViajante
     public partial class FormularioPrincipal : Form
     {
         // Constantes
-    
+        
         const int VACIO = 9999;
         const int SIZE = 23;
         const string PROVINCIAS_DIR = "provincias.csv";
         const string ARGENTINA_IMG_DIR = "argentina.png";
         const string DISTANCIAS_DIR = "distancia.csv";
 
-        enum MODO { EXHAUSTIVO, HEURISTICO, GENETICO }
+        // Variables para la Animación
+
+        private int iteradorProv = 0;
+        private int distanciaLinea = 0; 
+        private Timer timer = new Timer();        
+        Point hasta;
+        Point desde;        
+        double vector_unitario_x;
+        double vector_unitario_y;
+        private int velocidad = 10;        
+        double hipotenusa;
+
+        //
         List<Provincia> Provincias { get; set; }
         List<Provincia> Recorrido { get; set; }
-        MODO _modo = MODO.EXHAUSTIVO;
+        enum MODO { EXHAUSTIVO, HEURISTICO, GENETICO }
+        MODO _modo;
         Provincia _provinciaSeleccionada=null;
         
         int[,] Distancia { get; set; }
@@ -44,44 +57,121 @@ namespace EjercicioViajante
                 btnGo.Enabled = false;
                 btnLimpiar.Enabled = false;
             }
+            _modo = MODO.HEURISTICO;
 
+            // Agregar el evento para la animación
+            timer.Tick += new EventHandler(OnTimer);
+            timer.Interval = 1;
+            timer.Enabled = false;
+
+        }       
+
+        private void OnTimer(object sender, EventArgs e)
+        {
+            // Mientras haya trayectos sin dibujar
+            if (iteradorProv < this.Recorrido.Count - 1)
+            {
+                using (var p = new Pen(Color.Blue, 2))
+                {   
+                    // Nuevo punto de partida
+                    if (distanciaLinea == 0)                        
+                    {
+                        desde = Recorrido.ElementAt(iteradorProv).CoordCapital;
+                        hasta = Recorrido.ElementAt(iteradorProv + 1).CoordCapital;
+
+                        // Genera propiedades del vector entre los puntos desde y hasta
+                        Point vectorAB = new Point(hasta.X - desde.X, hasta.Y - desde.Y);
+                        hipotenusa = this.LengthOfHypotenuse(desde, hasta);
+                        vector_unitario_x = vectorAB.X / hipotenusa;
+                        vector_unitario_y = vectorAB.Y / hipotenusa;
+                    }                                    
+                    // Nuevos valores de x
+                    int x = desde.X + (int)(vector_unitario_x * distanciaLinea*velocidad);
+                    int y = desde.Y + (int)(vector_unitario_y * distanciaLinea*velocidad);                                       
+                    // Si se llego a una provincia
+                    if (distanciaLinea* velocidad > hipotenusa)
+                    {
+                        distanciaLinea = 0;                        
+                        // Agregar nombre provincia  
+
+                        txtListadoProv.Text += iteradorProv + 1 + "- " + Recorrido.ElementAt(iteradorProv + 1).Nombre + "\r\n";
+
+                        // Completa la linea
+                        Bitmap map = (Bitmap)imArgentina.Image;
+                        Graphics g = Graphics.FromImage(map);
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                        g.DrawLine(p, desde, hasta);
+                        imArgentina.Image = map;
+                        iteradorProv++;
+                    }else
+                    {
+                        // Dibujar linea hasta el punto actual
+                        Bitmap map = (Bitmap)imArgentina.Image;
+                        Graphics g = Graphics.FromImage(map);
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                        g.DrawLine(p, desde, new Point(x, y));
+                        imArgentina.Image = map;                        
+                        distanciaLinea=distanciaLinea+1;
+                    } 
+                }
+            }
+            else
+            {                
+                this.StopAnimation();
+            }
+            
         }
+
         private void btnGo_Click(object sender, EventArgs e)
         {
+            
             txtListadoProv.Text = null;
+            Algoritmo algoritmo = null;
             switch (_modo)
             {
                 case MODO.EXHAUSTIVO:
                     {
+                        algoritmo = new Genetico(this.Distancia, this.Provincias);
+                        Recorrido = algoritmo.getRecorrido();
+                        txtDistanciaRecorrida.Text = algoritmo.LongitudRecorrido.ToString();                        
                         break;
                     }
                 case MODO.HEURISTICO:
                     {
-                        Heuristico algoritmo = new Heuristico(this.Distancia, this.Provincias);                        
+                        algoritmo = new Heuristico(this.Distancia, this.Provincias);                        
                         if (_provinciaSeleccionada != null)
                         {
-                            Recorrido = algoritmo.getRecorrido(_provinciaSeleccionada);
+                            Recorrido = ((Heuristico)algoritmo).getRecorrido(_provinciaSeleccionada);
                         }
                         else
                         {
-                            Recorrido = algoritmo.getBestRecorrido();
+                            Recorrido = algoritmo.getRecorrido();
                         }                        
                         txtDistanciaRecorrida.Text = algoritmo.LongitudRecorrido.ToString();                        
                         break;
                     }
                 case MODO.GENETICO:
                     {
+                        algoritmo = new Genetico(this.Distancia, this.Provincias);
+                        Recorrido = algoritmo.getRecorrido();
+                        txtDistanciaRecorrida.Text = algoritmo.LongitudRecorrido.ToString();
                         break;
                     }
             }
-            // Lista todas las provincias
-            int i = 1;
-            foreach(Provincia prov in this.Recorrido)
-            {
-                txtListadoProv.Text += i + "- " + prov.Nombre+ "\r\n";
-                i++;
-            }
-            imArgentina.Invalidate();
+            txtDistanciaRecorrida.Text = algoritmo.LongitudRecorrido.ToString();
+
+            // Lista primer Provincia
+            txtListadoProv.Text += 0 + "- " + Recorrido.ElementAt(0).Nombre + "\r\n";
+
+            // Borra Imagen recorrido anterior
+            cargarImagenArgentina();
+            StopAnimation();
+
+            timer.Start();
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -89,32 +179,9 @@ namespace EjercicioViajante
             this.Limpiar();
         }
 
-        private void imArgentina_Paint(object sender, PaintEventArgs e)
-        {
-            imArgentina.Image = Image.FromFile(ARGENTINA_IMG_DIR);
-            if (Recorrido != null)
-            {                
-                using (var p = new Pen(Color.Blue, 2))
-                {  
-                    Bitmap map = (Bitmap)imArgentina.Image;
-                    Graphics g = Graphics.FromImage(map);
-                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                    g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    for (int i = 0; i < this.Recorrido.Count-1; i++)
-                    {
-                        Point desde = Recorrido.ElementAt(i).CoordCapital;
-                        Point hasta = Recorrido.ElementAt(i + 1).CoordCapital;
-                        g.DrawLine(p, desde, hasta);
-                    }
-                    imArgentina.Image = map;
-                }               
-                
-            }
-        }
         private void createImageMap()
         {
-            imArgentina.Image = Image.FromFile(ARGENTINA_IMG_DIR);
+            cargarImagenArgentina();
             foreach (Provincia prov in this.Provincias)
             {
                 imArgentina.AddPolygon(prov.Nombre, prov.Frontera);
@@ -247,14 +314,35 @@ namespace EjercicioViajante
         }
         private void Limpiar()
         {
+            StopAnimation();
             this._provinciaSeleccionada = null;
             this.txtProvincia.Text = "";
             this.txtDistanciaRecorrida.Text = "";
             this.Recorrido = null;
             this.txtListadoProv.Text = "";
-            this.imArgentina.Invalidate();            
+            cargarImagenArgentina();
         }
-        
+        private void StopAnimation()
+        {
+            iteradorProv = 0;
+            distanciaLinea = 0;
+            timer.Stop();
+        }
+        private double LengthOfHypotenuse(Point a, Point b)
+        {
+            double aSq = Math.Pow(a.X - b.X, 2); 
+            double bSq = Math.Pow(a.Y - b.Y, 2); 
+            return Math.Sqrt(aSq + bSq); 
+        }
+        private void cargarImagenArgentina()
+        {
+            imArgentina.Image = Image.FromFile(ARGENTINA_IMG_DIR);
+            this.imArgentina.Invalidate();
+        }
 
+        private void trackBarVelocidad_Scroll(object sender, EventArgs e)
+        {
+            this.velocidad = trackBarVelocidad.Value;
+        }
     }
 }

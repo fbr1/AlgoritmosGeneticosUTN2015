@@ -4,7 +4,8 @@ namespace EjercicioViajante
 {
     internal interface IViajante
     {
-        List<Individuo.Provincias> getRecorrido();
-        int LongitudTrayecto { get; set; }        
+        List<Provincia> getRecorrido();
+        int LongitudRecorrido { get; set; }
+        
     }
 }

@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algoritmo.cs" />
     <Compile Include="Exhaustivo.cs" />
     <Compile Include="FormularioPrincipal.cs">
       <SubType>Form</SubType>

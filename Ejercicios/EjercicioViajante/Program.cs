@@ -11,8 +11,6 @@ namespace EjercicioViajante
 {
     class Program
     {
-        const int VACIO = 9999;
-        const int SIZE = 23;
         [STAThread]
         static void Main(string[] args)
         {

@@ -43,20 +43,23 @@ namespace EjercicioViajante
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.imArgentina = new DotNetOpenSource.Controls.ImageMap();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblDistanciaRecorrida = new System.Windows.Forms.Label();
-            this.txtDistanciaRecorrida = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblProvincias = new System.Windows.Forms.Label();
             this.txtListadoProv = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblDistanciaRecorrida = new System.Windows.Forms.Label();
+            this.txtDistanciaRecorrida = new System.Windows.Forms.TextBox();
+            this.lblVelocidad = new System.Windows.Forms.Label();
+            this.trackBarVelocidad = new System.Windows.Forms.TrackBar();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            this.flowLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarVelocidad)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -74,7 +77,7 @@ namespace EjercicioViajante
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(538, 581);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(551, 614);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -91,7 +94,7 @@ namespace EjercicioViajante
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(532, 34);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(545, 34);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // flowLayoutPanel1
@@ -108,12 +111,10 @@ namespace EjercicioViajante
             // rbExhaustivo
             // 
             this.rbExhaustivo.AutoSize = true;
-            this.rbExhaustivo.Checked = true;
             this.rbExhaustivo.Location = new System.Drawing.Point(3, 3);
             this.rbExhaustivo.Name = "rbExhaustivo";
             this.rbExhaustivo.Size = new System.Drawing.Size(77, 17);
             this.rbExhaustivo.TabIndex = 0;
-            this.rbExhaustivo.TabStop = true;
             this.rbExhaustivo.Text = "Exhaustivo";
             this.rbExhaustivo.UseVisualStyleBackColor = true;
             this.rbExhaustivo.CheckedChanged += new System.EventHandler(this.rbExhaustivo_CheckedChanged);
@@ -121,6 +122,7 @@ namespace EjercicioViajante
             // rbHeuristico
             // 
             this.rbHeuristico.AutoSize = true;
+            this.rbHeuristico.Checked = true;
             this.rbHeuristico.Location = new System.Drawing.Point(86, 3);
             this.rbHeuristico.Name = "rbHeuristico";
             this.rbHeuristico.Size = new System.Drawing.Size(74, 17);
@@ -158,7 +160,6 @@ namespace EjercicioViajante
             this.txtProvincia.ReadOnly = true;
             this.txtProvincia.Size = new System.Drawing.Size(103, 20);
             this.txtProvincia.TabIndex = 0;
-            this.txtProvincia.Visible = false;
             // 
             // flowLayoutPanel4
             // 
@@ -194,7 +195,7 @@ namespace EjercicioViajante
             this.tableLayoutPanel3.ColumnCount = 3;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
             this.tableLayoutPanel3.Controls.Add(this.imArgentina, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel5, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -202,7 +203,7 @@ namespace EjercicioViajante
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(532, 491);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(545, 524);
             this.tableLayoutPanel3.TabIndex = 3;
             // 
             // imArgentina
@@ -211,38 +212,9 @@ namespace EjercicioViajante
             this.imArgentina.Image = null;
             this.imArgentina.Location = new System.Drawing.Point(3, 3);
             this.imArgentina.Name = "imArgentina";
-            this.imArgentina.Size = new System.Drawing.Size(294, 485);
+            this.imArgentina.Size = new System.Drawing.Size(294, 518);
             this.imArgentina.TabIndex = 1;
             this.imArgentina.RegionClick += new DotNetOpenSource.Controls.ImageMap.RegionClickDelegate(this.imArgentina_RegionClick);
-            this.imArgentina.Paint += new System.Windows.Forms.PaintEventHandler(this.imArgentina_Paint);
-            // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.Controls.Add(this.lblDistanciaRecorrida);
-            this.flowLayoutPanel3.Controls.Add(this.txtDistanciaRecorrida);
-            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 540);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(532, 38);
-            this.flowLayoutPanel3.TabIndex = 2;
-            // 
-            // lblDistanciaRecorrida
-            // 
-            this.lblDistanciaRecorrida.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblDistanciaRecorrida.AutoSize = true;
-            this.lblDistanciaRecorrida.Location = new System.Drawing.Point(3, 6);
-            this.lblDistanciaRecorrida.Name = "lblDistanciaRecorrida";
-            this.lblDistanciaRecorrida.Size = new System.Drawing.Size(100, 13);
-            this.lblDistanciaRecorrida.TabIndex = 0;
-            this.lblDistanciaRecorrida.Text = "Distancia Recorrida";
-            // 
-            // txtDistanciaRecorrida
-            // 
-            this.txtDistanciaRecorrida.Location = new System.Drawing.Point(109, 3);
-            this.txtDistanciaRecorrida.Name = "txtDistanciaRecorrida";
-            this.txtDistanciaRecorrida.ReadOnly = true;
-            this.txtDistanciaRecorrida.Size = new System.Drawing.Size(100, 20);
-            this.txtDistanciaRecorrida.TabIndex = 1;
             // 
             // flowLayoutPanel5
             // 
@@ -251,7 +223,7 @@ namespace EjercicioViajante
             this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel5.Location = new System.Drawing.Point(303, 3);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
-            this.flowLayoutPanel5.Size = new System.Drawing.Size(126, 485);
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(126, 518);
             this.flowLayoutPanel5.TabIndex = 2;
             // 
             // lblProvincias
@@ -268,14 +240,62 @@ namespace EjercicioViajante
             this.txtListadoProv.Multiline = true;
             this.txtListadoProv.Name = "txtListadoProv";
             this.txtListadoProv.ReadOnly = true;
-            this.txtListadoProv.Size = new System.Drawing.Size(126, 459);
+            this.txtListadoProv.Size = new System.Drawing.Size(123, 459);
             this.txtListadoProv.TabIndex = 1;
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.lblDistanciaRecorrida);
+            this.flowLayoutPanel3.Controls.Add(this.txtDistanciaRecorrida);
+            this.flowLayoutPanel3.Controls.Add(this.lblVelocidad);
+            this.flowLayoutPanel3.Controls.Add(this.trackBarVelocidad);
+            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 573);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(545, 38);
+            this.flowLayoutPanel3.TabIndex = 2;
+            // 
+            // lblDistanciaRecorrida
+            // 
+            this.lblDistanciaRecorrida.AutoSize = true;
+            this.lblDistanciaRecorrida.Location = new System.Drawing.Point(3, 0);
+            this.lblDistanciaRecorrida.Name = "lblDistanciaRecorrida";
+            this.lblDistanciaRecorrida.Size = new System.Drawing.Size(100, 13);
+            this.lblDistanciaRecorrida.TabIndex = 0;
+            this.lblDistanciaRecorrida.Text = "Distancia Recorrida";
+            // 
+            // txtDistanciaRecorrida
+            // 
+            this.txtDistanciaRecorrida.Location = new System.Drawing.Point(109, 3);
+            this.txtDistanciaRecorrida.Name = "txtDistanciaRecorrida";
+            this.txtDistanciaRecorrida.ReadOnly = true;
+            this.txtDistanciaRecorrida.Size = new System.Drawing.Size(100, 20);
+            this.txtDistanciaRecorrida.TabIndex = 1;
+            // 
+            // lblVelocidad
+            // 
+            this.lblVelocidad.AutoSize = true;
+            this.lblVelocidad.Location = new System.Drawing.Point(215, 0);
+            this.lblVelocidad.Name = "lblVelocidad";
+            this.lblVelocidad.Size = new System.Drawing.Size(57, 13);
+            this.lblVelocidad.TabIndex = 3;
+            this.lblVelocidad.Text = "Velocidad:";
+            // 
+            // trackBarVelocidad
+            // 
+            this.trackBarVelocidad.Location = new System.Drawing.Point(278, 3);
+            this.trackBarVelocidad.Minimum = 1;
+            this.trackBarVelocidad.Name = "trackBarVelocidad";
+            this.trackBarVelocidad.Size = new System.Drawing.Size(104, 45);
+            this.trackBarVelocidad.TabIndex = 2;
+            this.trackBarVelocidad.Value = 5;
+            this.trackBarVelocidad.Scroll += new System.EventHandler(this.trackBarVelocidad_Scroll);
             // 
             // FormularioPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(538, 581);
+            this.ClientSize = new System.Drawing.Size(551, 614);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "FormularioPrincipal";
             this.Text = "FormularioPrincipal";
@@ -287,10 +307,11 @@ namespace EjercicioViajante
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
-            this.flowLayoutPanel3.ResumeLayout(false);
-            this.flowLayoutPanel3.PerformLayout();
             this.flowLayoutPanel5.ResumeLayout(false);
             this.flowLayoutPanel5.PerformLayout();
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarVelocidad)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -316,5 +337,7 @@ namespace EjercicioViajante
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
         private System.Windows.Forms.Label lblProvincias;
         private System.Windows.Forms.TextBox txtListadoProv;
+        private System.Windows.Forms.TrackBar trackBarVelocidad;
+        private System.Windows.Forms.Label lblVelocidad;
     }
 }
