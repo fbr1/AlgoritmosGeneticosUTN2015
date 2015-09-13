@@ -11,10 +11,6 @@ namespace EjercicioViajante
         const int BIG_VALUE_DISTANCIA = 9999999;
         public Provincia ProvinciaInicial { get; set; }
 
-        public Heuristico(int[,] distancia, List<Provincia> provincias):base(distancia,provincias)
-        {
-        }
-
         // Devuelve el recorrido minimo segun la provincia inical indicada
         public List<Provincia> getRecorrido(Provincia provinciaInicial)
         {
@@ -28,7 +24,7 @@ namespace EjercicioViajante
             Provincia ultimaVisitada = provinciaInicial;
 
 
-            int cantProvincias = this.Provincias.Count;
+            int cantProvincias = Algoritmo.Provincias.Count;
 
             int longitudRecorrido = 0;
 
@@ -43,9 +39,9 @@ namespace EjercicioViajante
                     if (visitadas[j] == 0)
                     {
                         // Si la distancia a la provincia j es menor que la ultima minima distancia
-                        if (Distancia[ultimaVisitada.ID, j] < minDistancia)
+                        if (Algoritmo.Distancia[ultimaVisitada.ID, j] < minDistancia)
                         {
-                            minDistancia = Distancia[ultimaVisitada.ID, j];
+                            minDistancia = Algoritmo.Distancia[ultimaVisitada.ID, j];
                             minDistanciaProvinciaId = j;
                         }
                     }
@@ -55,11 +51,11 @@ namespace EjercicioViajante
                 // Pone la provincia como visitada
                 visitadas[minDistanciaProvinciaId] = 1;
 
-                ultimaVisitada = this.Provincias.Find(x => x.ID == minDistanciaProvinciaId);
+                ultimaVisitada = Algoritmo.Provincias.Find(x => x.ID == minDistanciaProvinciaId);
                 recorrido.Add(ultimaVisitada);
 
             }
-            this.LongitudRecorrido = longitudRecorrido + Distancia[recorrido.Last().ID, provinciaInicial.ID];
+            this.LongitudRecorrido = longitudRecorrido + Algoritmo.Distancia[recorrido.Last().ID, provinciaInicial.ID];
 
             recorrido.Add(provinciaInicial);
 
@@ -72,7 +68,7 @@ namespace EjercicioViajante
         {            
             int distanciaMin = 99999999;
             List<Provincia> mejorRecorrido = null;
-            foreach (Provincia prov in this.Provincias)
+            foreach (Provincia prov in Algoritmo.Provincias)
             {
                 List<Provincia> recorrido = getRecorrido(prov);
                 if (LongitudRecorrido < distanciaMin)

@@ -59,6 +59,7 @@
     <Compile Include="FormularioPrincipal.Designer.cs">
       <DependentUpon>FormularioPrincipal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Generacion.cs" />
     <Compile Include="Genetico.cs" />
     <Compile Include="Heuristico.cs" />
     <Compile Include="Individuo.cs" />

@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace EjercicioViajante
 {
     public partial class FormularioPrincipal : Form
-    {
+    {       
+
         // Constantes
-        
+
         const int VACIO = 9999;
         const int SIZE = 23;
         const string PROVINCIAS_DIR = "provincias.csv";
@@ -33,21 +30,20 @@ namespace EjercicioViajante
         private int velocidad = 10;        
         double hipotenusa;
 
-        //
-        List<Provincia> Provincias { get; set; }
+        //        
         List<Provincia> Recorrido { get; set; }
         enum MODO { EXHAUSTIVO, HEURISTICO, GENETICO }
         MODO _modo;
         Provincia _provinciaSeleccionada=null;
         
-        int[,] Distancia { get; set; }
+        
         public FormularioPrincipal()
         {            
             InitializeComponent();
-            this.Provincias = GetProvincias();
-            this.Distancia = GetDistanceMatrix();
+            Algoritmo.Provincias = GetProvincias();
+            Algoritmo.Distancia = GetDistanceMatrix();
             // Load Provincias
-            if (this.Provincias != null && this.Distancia != null)
+            if (Algoritmo.Provincias != null && Algoritmo.Distancia != null)
             {
                 createImageMap();
             }else
@@ -62,8 +58,7 @@ namespace EjercicioViajante
             // Agregar el evento para la animación
             timer.Tick += new EventHandler(OnTimer);
             timer.Interval = 1;
-            timer.Enabled = false;
-
+            timer.Enabled = false; 
         }       
 
         private void OnTimer(object sender, EventArgs e)
@@ -76,8 +71,8 @@ namespace EjercicioViajante
                     // Nuevo punto de partida
                     if (distanciaLinea == 0)                        
                     {
-                        desde = Recorrido.ElementAt(iteradorProv).CoordCapital;
-                        hasta = Recorrido.ElementAt(iteradorProv + 1).CoordCapital;
+                        desde = Recorrido[iteradorProv].CoordCapital;
+                        hasta = Recorrido[iteradorProv + 1].CoordCapital;
 
                         // Genera propiedades del vector entre los puntos desde y hasta
                         Point vectorAB = new Point(hasta.X - desde.X, hasta.Y - desde.Y);
@@ -94,7 +89,7 @@ namespace EjercicioViajante
                         distanciaLinea = 0;                        
                         // Agregar nombre provincia  
 
-                        txtListadoProv.Text += iteradorProv + 1 + "- " + Recorrido.ElementAt(iteradorProv + 1).Nombre + "\r\n";
+                        txtListadoProv.Text += iteradorProv + 1 + "- " + Recorrido[iteradorProv + 1].Nombre + "\r\n";
 
                         // Completa la linea
                         Bitmap map = (Bitmap)imArgentina.Image;
@@ -131,18 +126,20 @@ namespace EjercicioViajante
             
             txtListadoProv.Text = null;
             Algoritmo algoritmo = null;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();          
+
             switch (_modo)
             {
                 case MODO.EXHAUSTIVO:
                     {
-                        algoritmo = new Genetico(this.Distancia, this.Provincias);
-                        Recorrido = algoritmo.getRecorrido();
-                        txtDistanciaRecorrida.Text = algoritmo.LongitudRecorrido.ToString();                        
+                        algoritmo = new Genetico();
+                        Recorrido = algoritmo.getRecorrido(); 
                         break;
                     }
                 case MODO.HEURISTICO:
                     {
-                        algoritmo = new Heuristico(this.Distancia, this.Provincias);                        
+                        algoritmo = new Heuristico();                        
                         if (_provinciaSeleccionada != null)
                         {
                             Recorrido = ((Heuristico)algoritmo).getRecorrido(_provinciaSeleccionada);
@@ -150,22 +147,23 @@ namespace EjercicioViajante
                         else
                         {
                             Recorrido = algoritmo.getRecorrido();
-                        }                        
-                        txtDistanciaRecorrida.Text = algoritmo.LongitudRecorrido.ToString();                        
+                        }                       
+                                              
                         break;
                     }
                 case MODO.GENETICO:
                     {
-                        algoritmo = new Genetico(this.Distancia, this.Provincias);
-                        Recorrido = algoritmo.getRecorrido();
-                        txtDistanciaRecorrida.Text = algoritmo.LongitudRecorrido.ToString();
+                        algoritmo = new Genetico();
+                        Recorrido = algoritmo.getRecorrido();                        
                         break;
                     }
             }
+            stopwatch.Stop();
+            txtTiempo.Text = (stopwatch.Elapsed.TotalMilliseconds).ToString() + " ms";
             txtDistanciaRecorrida.Text = algoritmo.LongitudRecorrido.ToString();
 
             // Lista primer Provincia
-            txtListadoProv.Text += 0 + "- " + Recorrido.ElementAt(0).Nombre + "\r\n";
+            txtListadoProv.Text += 0 + "- " + Recorrido[0].Nombre + "\r\n";
 
             // Borra Imagen recorrido anterior
             cargarImagenArgentina();
@@ -182,7 +180,7 @@ namespace EjercicioViajante
         private void createImageMap()
         {
             cargarImagenArgentina();
-            foreach (Provincia prov in this.Provincias)
+            foreach (Provincia prov in Algoritmo.Provincias)
             {
                 imArgentina.AddPolygon(prov.Nombre, prov.Frontera);
             }
@@ -308,7 +306,7 @@ namespace EjercicioViajante
         {
             if (_modo == MODO.HEURISTICO)
             {
-                _provinciaSeleccionada = this.Provincias.Find(x => x.Nombre.Equals(key));
+                _provinciaSeleccionada = Algoritmo.Provincias.Find(x => x.Nombre.Equals(key));
                 txtProvincia.Text = _provinciaSeleccionada.Nombre;
             }
         }

@@ -51,6 +51,8 @@ namespace EjercicioViajante
             this.txtDistanciaRecorrida = new System.Windows.Forms.TextBox();
             this.lblVelocidad = new System.Windows.Forms.Label();
             this.trackBarVelocidad = new System.Windows.Forms.TrackBar();
+            this.lblTiempo = new System.Windows.Forms.Label();
+            this.txtTiempo = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -247,6 +249,8 @@ namespace EjercicioViajante
             // 
             this.flowLayoutPanel3.Controls.Add(this.lblDistanciaRecorrida);
             this.flowLayoutPanel3.Controls.Add(this.txtDistanciaRecorrida);
+            this.flowLayoutPanel3.Controls.Add(this.lblTiempo);
+            this.flowLayoutPanel3.Controls.Add(this.txtTiempo);
             this.flowLayoutPanel3.Controls.Add(this.lblVelocidad);
             this.flowLayoutPanel3.Controls.Add(this.trackBarVelocidad);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -275,7 +279,7 @@ namespace EjercicioViajante
             // lblVelocidad
             // 
             this.lblVelocidad.AutoSize = true;
-            this.lblVelocidad.Location = new System.Drawing.Point(215, 0);
+            this.lblVelocidad.Location = new System.Drawing.Point(369, 0);
             this.lblVelocidad.Name = "lblVelocidad";
             this.lblVelocidad.Size = new System.Drawing.Size(57, 13);
             this.lblVelocidad.TabIndex = 3;
@@ -283,13 +287,29 @@ namespace EjercicioViajante
             // 
             // trackBarVelocidad
             // 
-            this.trackBarVelocidad.Location = new System.Drawing.Point(278, 3);
+            this.trackBarVelocidad.Location = new System.Drawing.Point(432, 3);
             this.trackBarVelocidad.Minimum = 1;
             this.trackBarVelocidad.Name = "trackBarVelocidad";
             this.trackBarVelocidad.Size = new System.Drawing.Size(104, 45);
             this.trackBarVelocidad.TabIndex = 2;
             this.trackBarVelocidad.Value = 5;
             this.trackBarVelocidad.Scroll += new System.EventHandler(this.trackBarVelocidad_Scroll);
+            // 
+            // lblTiempo
+            // 
+            this.lblTiempo.AutoSize = true;
+            this.lblTiempo.Location = new System.Drawing.Point(215, 0);
+            this.lblTiempo.Name = "lblTiempo";
+            this.lblTiempo.Size = new System.Drawing.Size(42, 13);
+            this.lblTiempo.TabIndex = 4;
+            this.lblTiempo.Text = "Tiempo";
+            // 
+            // txtTiempo
+            // 
+            this.txtTiempo.Location = new System.Drawing.Point(263, 3);
+            this.txtTiempo.Name = "txtTiempo";
+            this.txtTiempo.Size = new System.Drawing.Size(100, 20);
+            this.txtTiempo.TabIndex = 5;
             // 
             // FormularioPrincipal
             // 
@@ -339,5 +359,7 @@ namespace EjercicioViajante
         private System.Windows.Forms.TextBox txtListadoProv;
         private System.Windows.Forms.TrackBar trackBarVelocidad;
         private System.Windows.Forms.Label lblVelocidad;
+        private System.Windows.Forms.Label lblTiempo;
+        private System.Windows.Forms.TextBox txtTiempo;
     }
 }

@@ -9,11 +9,7 @@ namespace EjercicioViajante
     class Exhaustivo : Algoritmo
     {
         const int VACIO = 9999;
-        const int SIZE = 5;        
-
-        public Exhaustivo(int[,] distancia, List<Provincia> provincias):base(distancia,provincias)
-        {            
-        }
+        const int SIZE = 5; 
 
         public override List<Provincia> getRecorrido()
         {

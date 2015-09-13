@@ -8,79 +8,69 @@ namespace EjercicioViajante
 {
     class Individuo
     {
-        public enum Provincias
-        {
-            BUENOS_AIRES,
-            SAN_SALVADOR_DE_JUJUY,
-            SALTA,
-            SAN_MIGUEL_DE_TUCUMAN,
-            SANTIAGO_DEL_ESTERO,
-            FORMOSA,
-            RESISTENCIA,
-            SANTA_FE,
-            CORRIENTES,
-            POSADAS,
-            PARANA,
-            CORDOBA,
-            LA_RIOJA,
-            SAN_JUAN,
-            SAN_LUIS,
-            CATAMARCA,
-            MENDOZA,
-            SANTA_ROSA,
-            NEUQUEN,
-            VIEDMA,
-            RAWSON,
-            RIO_GALLEGOS,
-            USHUAIA 
-        }
         // Constantes
         public const int CROMOSOMA_SIZE = 23;
 
         //Propiedades
-        public Provincias[] Cromosoma { get; set; }
+        public Provincia[] Cromosoma { get; set; }
 
         public int ValorCromosoma { get; set; }
-        public double FuncionObjetiva { get; set; }
+        public int FuncionObjetiva { get; set; }
         public double Fitness { get; set; }
 
         // Metodos
         public Individuo()
         {
-            Cromosoma = new Provincias[CROMOSOMA_SIZE];
+            Cromosoma = new Provincia[CROMOSOMA_SIZE];
+
         }
+        // Para la poblacion inicial
         public Individuo(Random rnd)
             : this()
         {
             // Generar Cromosoma            
-            for (int i = 0; i < Cromosoma.Length; i++)
+
+            double[] provincias = new double[23];
+
+            // Genera lista aleatoria 
+            for (int j = 0; j < Individuo.CROMOSOMA_SIZE; j++)
             {
-                Cromosoma[i] = GetRandomEnum<Provincias>(rnd);
+                provincias[j] = Generacion.rnd.NextDouble();
             }
+            double[] provOrdenadas = new double[23];
+            Array.Copy(provincias, provOrdenadas, provincias.Length);
+
+            // Ordenar Lista
+            Array.Sort(provincias);
+            // Asignar provincia al indice j
+            for (int j = 0; j < Individuo.CROMOSOMA_SIZE; j++)
+            {
+                for (int k = 0; k < Individuo.CROMOSOMA_SIZE; k++)
+                {
+                    if (provincias[j] == provOrdenadas[k])
+                    {
+                        Cromosoma[j] = Algoritmo.Provincias[k];
+                        break;
+                    }
+                }
+            }
+
+            generarValores();
         }
-        public int CalcularDistanciaTotal(int[,] distancia)
+        public void generarValores()
         {
             int distanciaTotal = 0;
-            int provinciaDesde;
-            int provinciaHasta;
-            for (int i = 0; i < Cromosoma.Length-1; i++)
+            Provincia provinciaDesde;
+            Provincia provinciaHasta;
+            for (int i = 0; i < Cromosoma.Length - 1; i++)
             {
-                provinciaDesde = (int)Cromosoma[i];
-                provinciaHasta = (int)Cromosoma[i+1];
-                distanciaTotal += distancia[provinciaDesde, provinciaHasta];
+                provinciaDesde = Cromosoma[i];
+                provinciaHasta = Cromosoma[i + 1];
+                distanciaTotal += Algoritmo.Distancia[provinciaDesde.ID, provinciaHasta.ID];
             }
-            distanciaTotal += distancia[(int)Cromosoma[22], (int)Cromosoma[0]];
+            distanciaTotal += Algoritmo.Distancia[Cromosoma[CROMOSOMA_SIZE-1].ID, Cromosoma[0].ID];
 
-            FuncionObjetiva = distanciaTotal;
-            return distanciaTotal;
-        }
-
-        // Devuelve un enum aleatorio
-        static T GetRandomEnum<T>(Random rnd)
-        {
-            System.Array A = System.Enum.GetValues(typeof(T));
-            T randomEnum = (T)A.GetValue(rnd.Next(0, A.Length));
-            return randomEnum;
+            FuncionObjetiva = distanciaTotal; 
         }
 
     }

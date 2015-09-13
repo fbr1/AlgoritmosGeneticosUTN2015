@@ -8,16 +8,11 @@ namespace EjercicioViajante
 {
     abstract class Algoritmo
     {
+        // Variables de clase
+        public static int[,] Distancia { get; set; }
+        public static List<Provincia> Provincias { get; set; }
         public int LongitudRecorrido { get; set; }
-        public int[,] Distancia { get; set; }
-
-        public List<Provincia> Provincias { get; set; }
         public List<Provincia> Recorrido { get; set; }
-        abstract public List<Provincia> getRecorrido();
-        public Algoritmo(int[,] distancia, List<Provincia> provincias)
-        {
-            this.Distancia = distancia;
-            this.Provincias = provincias;
-        }
+        abstract public List<Provincia> getRecorrido();        
     }
 }
