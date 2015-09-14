@@ -9,10 +9,16 @@ using System.ComponentModel;
 namespace EjercicioViajante 
 {
     class Genetico : Algoritmo
-    {
-        const int CICLOS = 400;
-        const int ITERACIONES = 1000;
-
+    {       
+        int CICLOS { get; set; }        
+        int ITERACIONES { get; set; }
+        public  Genetico(int ciclos ,int iteraciones, double prob_crossover, double prob_mutacion)
+        {
+            this.CICLOS = ciclos;
+            this.ITERACIONES = iteraciones;
+            Generacion.PROB_CROSSOVER = prob_crossover;
+            Generacion.PROB_MUTACION = prob_mutacion;
+        }
         public override List<Provincia> getRecorrido()
         {
             return null;
@@ -32,8 +38,8 @@ namespace EjercicioViajante
 
             object sync = new object();
 
-            Parallel.For<Tuple<int,Individuo, List<Generacion>>>(0, ITERACIONES,
-                () => new Tuple<int, Individuo, List<Generacion>>(int.MaxValue,null, null),
+            Parallel.For<Tuple<int, Individuo, List<Generacion>>>(0, ITERACIONES,
+                () => new Tuple<int, Individuo, List<Generacion>>(int.MaxValue, null, null),
                 (j, loopState, localState) =>
             {
                 if (bw.CancellationPending) loopState.Break();
@@ -54,14 +60,14 @@ namespace EjercicioViajante
                 }
                 if (mindistancia < localState.Item1)
                 {
-                    return new Tuple<int, Individuo, List<Generacion>>(mindistancia, recorridoIndividuo,bestgeneraciones);
+                    return new Tuple<int, Individuo, List<Generacion>>(mindistancia, recorridoIndividuo, bestgeneraciones);
                 }
                 else
                 {
                     return localState;
                 }
-                    
-                },
+
+            },
                 localState =>
                 {
                     lock (sync)
@@ -78,18 +84,18 @@ namespace EjercicioViajante
 
 
 
-            //for (int j = 0; j < 100; j++)
+            //for (int j = 0; j < ITERACIONES; j++)
             //{
             //    if (bw.CancellationPending) break;
-            //    List<Generacion> generaciones = new List<Generacion>();                
+            //    List<Generacion> generaciones = new List<Generacion>();
             //    Generacion generacion = new Generacion(CICLOS, ref generaciones);
             //    foreach (Individuo ind in generaciones.Last().Poblacion)
             //    {
-            //        if (ind.FuncionObjetiva < mindistancia)
+            //        if (ind.FuncionObjetiva < distanciaMin)
             //        {
-            //            recorridoIndividuo = ind;
-            //            mindistancia = ind.FuncionObjetiva;
-            //            bestgeneraciones = generaciones;
+            //            individuo = ind;
+            //            distanciaMin = ind.FuncionObjetiva;
+            //            mejorgeneraciones = generaciones;
             //        }
             //    }
             //}

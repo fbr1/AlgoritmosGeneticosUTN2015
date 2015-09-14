@@ -46,13 +46,23 @@ namespace EjercicioViajante
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblProvincias = new System.Windows.Forms.Label();
             this.txtListadoProv = new System.Windows.Forms.TextBox();
+            this.flpPropiedadesGeneticos = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblIteraciones = new System.Windows.Forms.Label();
+            this.txtIteraciones = new System.Windows.Forms.TextBox();
+            this.lblCiclos = new System.Windows.Forms.Label();
+            this.txtCiclos = new System.Windows.Forms.TextBox();
+            this.lblCrossover = new System.Windows.Forms.Label();
+            this.txtCrossover = new System.Windows.Forms.TextBox();
+            this.lblMutacion = new System.Windows.Forms.Label();
+            this.txtMutacion = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblDistanciaRecorrida = new System.Windows.Forms.Label();
             this.txtDistanciaRecorrida = new System.Windows.Forms.TextBox();
-            this.lblVelocidad = new System.Windows.Forms.Label();
-            this.trackBarVelocidad = new System.Windows.Forms.TrackBar();
             this.lblTiempo = new System.Windows.Forms.Label();
             this.txtTiempo = new System.Windows.Forms.TextBox();
+            this.lblVelocidad = new System.Windows.Forms.Label();
+            this.trackBarVelocidad = new System.Windows.Forms.TrackBar();
+            this.btnPlay = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -60,6 +70,7 @@ namespace EjercicioViajante
             this.flowLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
+            this.flpPropiedadesGeneticos.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVelocidad)).BeginInit();
             this.SuspendLayout();
@@ -200,6 +211,7 @@ namespace EjercicioViajante
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
             this.tableLayoutPanel3.Controls.Add(this.imArgentina, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel5, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.flpPropiedadesGeneticos, 2, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 43);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -245,6 +257,91 @@ namespace EjercicioViajante
             this.txtListadoProv.Size = new System.Drawing.Size(123, 459);
             this.txtListadoProv.TabIndex = 1;
             // 
+            // flpPropiedadesGeneticos
+            // 
+            this.flpPropiedadesGeneticos.Controls.Add(this.lblIteraciones);
+            this.flpPropiedadesGeneticos.Controls.Add(this.txtIteraciones);
+            this.flpPropiedadesGeneticos.Controls.Add(this.lblCiclos);
+            this.flpPropiedadesGeneticos.Controls.Add(this.txtCiclos);
+            this.flpPropiedadesGeneticos.Controls.Add(this.lblCrossover);
+            this.flpPropiedadesGeneticos.Controls.Add(this.txtCrossover);
+            this.flpPropiedadesGeneticos.Controls.Add(this.lblMutacion);
+            this.flpPropiedadesGeneticos.Controls.Add(this.txtMutacion);
+            this.flpPropiedadesGeneticos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpPropiedadesGeneticos.Location = new System.Drawing.Point(435, 3);
+            this.flpPropiedadesGeneticos.Name = "flpPropiedadesGeneticos";
+            this.flpPropiedadesGeneticos.Size = new System.Drawing.Size(107, 518);
+            this.flpPropiedadesGeneticos.TabIndex = 3;
+            this.flpPropiedadesGeneticos.Visible = false;
+            // 
+            // lblIteraciones
+            // 
+            this.lblIteraciones.AutoSize = true;
+            this.lblIteraciones.Location = new System.Drawing.Point(3, 0);
+            this.lblIteraciones.Name = "lblIteraciones";
+            this.lblIteraciones.Size = new System.Drawing.Size(59, 13);
+            this.lblIteraciones.TabIndex = 1;
+            this.lblIteraciones.Text = "Iteraciones";
+            // 
+            // txtIteraciones
+            // 
+            this.txtIteraciones.Location = new System.Drawing.Point(3, 16);
+            this.txtIteraciones.Name = "txtIteraciones";
+            this.txtIteraciones.Size = new System.Drawing.Size(100, 20);
+            this.txtIteraciones.TabIndex = 6;
+            this.txtIteraciones.Text = "100";
+            // 
+            // lblCiclos
+            // 
+            this.lblCiclos.AutoSize = true;
+            this.lblCiclos.Location = new System.Drawing.Point(3, 39);
+            this.lblCiclos.Name = "lblCiclos";
+            this.lblCiclos.Size = new System.Drawing.Size(35, 13);
+            this.lblCiclos.TabIndex = 0;
+            this.lblCiclos.Text = "Ciclos";
+            // 
+            // txtCiclos
+            // 
+            this.txtCiclos.Location = new System.Drawing.Point(3, 55);
+            this.txtCiclos.Name = "txtCiclos";
+            this.txtCiclos.Size = new System.Drawing.Size(100, 20);
+            this.txtCiclos.TabIndex = 5;
+            this.txtCiclos.Text = "400";
+            // 
+            // lblCrossover
+            // 
+            this.lblCrossover.AutoSize = true;
+            this.lblCrossover.Location = new System.Drawing.Point(3, 78);
+            this.lblCrossover.Name = "lblCrossover";
+            this.lblCrossover.Size = new System.Drawing.Size(54, 13);
+            this.lblCrossover.TabIndex = 3;
+            this.lblCrossover.Text = "Crossover";
+            // 
+            // txtCrossover
+            // 
+            this.txtCrossover.Location = new System.Drawing.Point(3, 94);
+            this.txtCrossover.Name = "txtCrossover";
+            this.txtCrossover.Size = new System.Drawing.Size(100, 20);
+            this.txtCrossover.TabIndex = 8;
+            this.txtCrossover.Text = "0.75";
+            // 
+            // lblMutacion
+            // 
+            this.lblMutacion.AutoSize = true;
+            this.lblMutacion.Location = new System.Drawing.Point(3, 117);
+            this.lblMutacion.Name = "lblMutacion";
+            this.lblMutacion.Size = new System.Drawing.Size(51, 13);
+            this.lblMutacion.TabIndex = 2;
+            this.lblMutacion.Text = "Mutacion";
+            // 
+            // txtMutacion
+            // 
+            this.txtMutacion.Location = new System.Drawing.Point(3, 133);
+            this.txtMutacion.Name = "txtMutacion";
+            this.txtMutacion.Size = new System.Drawing.Size(100, 20);
+            this.txtMutacion.TabIndex = 9;
+            this.txtMutacion.Text = "0.5";
+            // 
             // flowLayoutPanel3
             // 
             this.flowLayoutPanel3.Controls.Add(this.lblDistanciaRecorrida);
@@ -253,6 +350,7 @@ namespace EjercicioViajante
             this.flowLayoutPanel3.Controls.Add(this.txtTiempo);
             this.flowLayoutPanel3.Controls.Add(this.lblVelocidad);
             this.flowLayoutPanel3.Controls.Add(this.trackBarVelocidad);
+            this.flowLayoutPanel3.Controls.Add(this.btnPlay);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 573);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
@@ -264,41 +362,22 @@ namespace EjercicioViajante
             this.lblDistanciaRecorrida.AutoSize = true;
             this.lblDistanciaRecorrida.Location = new System.Drawing.Point(3, 0);
             this.lblDistanciaRecorrida.Name = "lblDistanciaRecorrida";
-            this.lblDistanciaRecorrida.Size = new System.Drawing.Size(100, 13);
+            this.lblDistanciaRecorrida.Size = new System.Drawing.Size(51, 13);
             this.lblDistanciaRecorrida.TabIndex = 0;
-            this.lblDistanciaRecorrida.Text = "Distancia Recorrida";
+            this.lblDistanciaRecorrida.Text = "Distancia";
             // 
             // txtDistanciaRecorrida
             // 
-            this.txtDistanciaRecorrida.Location = new System.Drawing.Point(109, 3);
+            this.txtDistanciaRecorrida.Location = new System.Drawing.Point(60, 3);
             this.txtDistanciaRecorrida.Name = "txtDistanciaRecorrida";
             this.txtDistanciaRecorrida.ReadOnly = true;
             this.txtDistanciaRecorrida.Size = new System.Drawing.Size(100, 20);
             this.txtDistanciaRecorrida.TabIndex = 1;
             // 
-            // lblVelocidad
-            // 
-            this.lblVelocidad.AutoSize = true;
-            this.lblVelocidad.Location = new System.Drawing.Point(369, 0);
-            this.lblVelocidad.Name = "lblVelocidad";
-            this.lblVelocidad.Size = new System.Drawing.Size(57, 13);
-            this.lblVelocidad.TabIndex = 3;
-            this.lblVelocidad.Text = "Velocidad:";
-            // 
-            // trackBarVelocidad
-            // 
-            this.trackBarVelocidad.Location = new System.Drawing.Point(432, 3);
-            this.trackBarVelocidad.Minimum = 1;
-            this.trackBarVelocidad.Name = "trackBarVelocidad";
-            this.trackBarVelocidad.Size = new System.Drawing.Size(104, 45);
-            this.trackBarVelocidad.TabIndex = 2;
-            this.trackBarVelocidad.Value = 5;
-            this.trackBarVelocidad.Scroll += new System.EventHandler(this.trackBarVelocidad_Scroll);
-            // 
             // lblTiempo
             // 
             this.lblTiempo.AutoSize = true;
-            this.lblTiempo.Location = new System.Drawing.Point(215, 0);
+            this.lblTiempo.Location = new System.Drawing.Point(166, 0);
             this.lblTiempo.Name = "lblTiempo";
             this.lblTiempo.Size = new System.Drawing.Size(42, 13);
             this.lblTiempo.TabIndex = 4;
@@ -306,10 +385,39 @@ namespace EjercicioViajante
             // 
             // txtTiempo
             // 
-            this.txtTiempo.Location = new System.Drawing.Point(263, 3);
+            this.txtTiempo.Location = new System.Drawing.Point(214, 3);
             this.txtTiempo.Name = "txtTiempo";
             this.txtTiempo.Size = new System.Drawing.Size(100, 20);
             this.txtTiempo.TabIndex = 5;
+            // 
+            // lblVelocidad
+            // 
+            this.lblVelocidad.AutoSize = true;
+            this.lblVelocidad.Location = new System.Drawing.Point(320, 0);
+            this.lblVelocidad.Name = "lblVelocidad";
+            this.lblVelocidad.Size = new System.Drawing.Size(57, 13);
+            this.lblVelocidad.TabIndex = 3;
+            this.lblVelocidad.Text = "Velocidad:";
+            // 
+            // trackBarVelocidad
+            // 
+            this.trackBarVelocidad.Location = new System.Drawing.Point(383, 3);
+            this.trackBarVelocidad.Minimum = 1;
+            this.trackBarVelocidad.Name = "trackBarVelocidad";
+            this.trackBarVelocidad.Size = new System.Drawing.Size(104, 45);
+            this.trackBarVelocidad.TabIndex = 2;
+            this.trackBarVelocidad.Value = 5;
+            this.trackBarVelocidad.Scroll += new System.EventHandler(this.trackBarVelocidad_Scroll);
+            // 
+            // btnPlay
+            // 
+            this.btnPlay.Location = new System.Drawing.Point(493, 3);
+            this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(43, 23);
+            this.btnPlay.TabIndex = 6;
+            this.btnPlay.Text = "Play";
+            this.btnPlay.UseVisualStyleBackColor = true;
+            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
             // FormularioPrincipal
             // 
@@ -329,6 +437,8 @@ namespace EjercicioViajante
             this.tableLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel5.ResumeLayout(false);
             this.flowLayoutPanel5.PerformLayout();
+            this.flpPropiedadesGeneticos.ResumeLayout(false);
+            this.flpPropiedadesGeneticos.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVelocidad)).EndInit();
@@ -361,5 +471,15 @@ namespace EjercicioViajante
         private System.Windows.Forms.Label lblVelocidad;
         private System.Windows.Forms.Label lblTiempo;
         private System.Windows.Forms.TextBox txtTiempo;
+        private System.Windows.Forms.FlowLayoutPanel flpPropiedadesGeneticos;
+        private System.Windows.Forms.Label lblIteraciones;
+        private System.Windows.Forms.TextBox txtIteraciones;
+        private System.Windows.Forms.Label lblCiclos;
+        private System.Windows.Forms.TextBox txtCiclos;
+        private System.Windows.Forms.Label lblCrossover;
+        private System.Windows.Forms.TextBox txtCrossover;
+        private System.Windows.Forms.Label lblMutacion;
+        private System.Windows.Forms.TextBox txtMutacion;
+        private System.Windows.Forms.Button btnPlay;
     }
 }

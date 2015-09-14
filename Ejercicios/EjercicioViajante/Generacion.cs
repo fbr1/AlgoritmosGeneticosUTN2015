@@ -9,11 +9,14 @@ namespace EjercicioViajante
 {
     class Generacion
     {
-        //Constants      
-        public const int POBLACION_SIZE = 50;        
-        public const double PROB_CROSSOVER = 0.75;
-        public const double PROB_MUTACION = 0.50;
+        // Constantes
+        public const int POBLACION_SIZE = 50;
         public const int NRO_ELITE = 2; // Multiplo de 2
+
+        //Variables de Clase 
+        public static double PROB_CROSSOVER { get; set; }
+        public static double PROB_MUTACION { get; set; }
+
 
         //Variables        
         private double _suma = 0;

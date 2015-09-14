@@ -13,11 +13,11 @@ namespace EjercicioViajante
 
         // Constantes
 
-        const int VACIO = 9999;
-        const int SIZE = 23;
+        const int VACIO = 0;
+        public const int SIZE = 5;
         const string PROVINCIAS_DIR = "provincias.csv";
         const string ARGENTINA_IMG_DIR = "argentina.png";
-        const string DISTANCIAS_DIR = "distancia.csv";
+        const string DISTANCIAS_DIR = "asd.csv";
 
         // Variables para la Animación
 
@@ -44,9 +44,10 @@ namespace EjercicioViajante
         public FormularioPrincipal()
         {            
             InitializeComponent();
+
+            // Load Provincias y Distancia
             Algoritmo.Provincias = GetProvincias();
-            Algoritmo.Distancia = GetDistanceMatrix();
-            // Load Provincias
+            Algoritmo.Distancia = GetDistanceMatrix();            
             if (Algoritmo.Provincias != null && Algoritmo.Distancia != null)
             {
                 createImageMap();
@@ -57,12 +58,14 @@ namespace EjercicioViajante
                 btnGo.Enabled = false;
                 btnLimpiar.Enabled = false;
             }
+            // Modo Default
             _modo = MODO.HEURISTICO;
 
             // Agregar el evento para la animación
             timer.Tick += new EventHandler(OnTimer);
             timer.Interval = 1;
             timer.Enabled = false;
+
             // Configuracion backgroundd worker
             bw.WorkerSupportsCancellation = true;
             bw.DoWork += new DoWorkEventHandler(bw_DoWork);
@@ -87,35 +90,34 @@ namespace EjercicioViajante
                         hipotenusa = this.LengthOfHypotenuse(desde, hasta);
                         vector_unitario_x = vectorAB.X / hipotenusa;
                         vector_unitario_y = vectorAB.Y / hipotenusa;
-                    }                                    
+                    }                             
+                           
                     // Nuevos valores de x
                     int x = desde.X + (int)(vector_unitario_x * distanciaLinea*velocidad);
-                    int y = desde.Y + (int)(vector_unitario_y * distanciaLinea*velocidad);                                       
+                    int y = desde.Y + (int)(vector_unitario_y * distanciaLinea*velocidad);
+
+                    // Inicializa graphic
+                    Bitmap map = (Bitmap)imArgentina.Image;
+                    Graphics g = Graphics.FromImage(map);
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
                     // Si se llego a una provincia
                     if (distanciaLinea* velocidad > hipotenusa)
                     {
-                        distanciaLinea = 0;                        
+                        distanciaLinea = 0;    
+                                            
                         // Agregar nombre provincia  
-
                         txtListadoProv.Text += iteradorProv + 1 + "- " + Recorrido[iteradorProv + 1].Nombre + "\r\n";
 
-                        // Completa la linea
-                        Bitmap map = (Bitmap)imArgentina.Image;
-                        Graphics g = Graphics.FromImage(map);
-                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                        g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                        // Completa la linea                        
                         g.DrawLine(p, desde, hasta);
                         imArgentina.Image = map;
                         iteradorProv++;
                     }else
                     {
-                        // Dibujar linea hasta el punto actual
-                        Bitmap map = (Bitmap)imArgentina.Image;
-                        Graphics g = Graphics.FromImage(map);
-                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                        g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                        // Dibujar linea hasta el punto actual                        
                         g.DrawLine(p, desde, new Point(x, y));
                         imArgentina.Image = map;                        
                         distanciaLinea=distanciaLinea+1;
@@ -132,6 +134,7 @@ namespace EjercicioViajante
         {
             BackgroundWorker worker = sender as BackgroundWorker;
 
+            // Empieza a medir el tiempo
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -141,8 +144,8 @@ namespace EjercicioViajante
             {
                 case MODO.EXHAUSTIVO:
                     {
-                        algoritmo = new Genetico();
-                        Recorrido = algoritmo.getRecorrido();
+                        algoritmo = new Exhaustivo();
+                        Recorrido = ((Exhaustivo)algoritmo).getRecorrido(bw);
                         break;
                     }
                 case MODO.HEURISTICO:
@@ -161,12 +164,17 @@ namespace EjercicioViajante
                     }
                 case MODO.GENETICO:
                     {
-                        algoritmo = new Genetico();
+                        algoritmo = new Genetico(Int32.Parse(txtCiclos.Text), Int32.Parse(txtIteraciones.Text), double.Parse(txtCrossover.Text),
+                            double.Parse(txtMutacion.Text));
+
                         Recorrido = ((Genetico)algoritmo).getRecorrido(bw);
                         break;
                     }
             }
+
+            // Termina medicion del tiempo
             stopwatch.Stop();
+
             DistanciaRecorrida = algoritmo.LongitudRecorrido;
             tiempoTranscurrido = stopwatch.Elapsed.TotalMilliseconds;
 
@@ -175,23 +183,33 @@ namespace EjercicioViajante
         {
             bw.CancelAsync();
             txtListadoProv.Text = null;
+
+            // Si el background worker no esta en ejecucion
             if (bw.IsBusy != true)
             {
                 bw.RunWorkerAsync();
             }
         }
+        // Termina el background worker
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            txtDistanciaRecorrida.Text = DistanciaRecorrida.ToString();
-            // Lista primer Provincia
-            txtListadoProv.Text += 0 + "- " + Recorrido[0].Nombre + "\r\n";
-            txtTiempo.Text = tiempoTranscurrido.ToString() + " ms";
+            if(Recorrido != null)
+            {
+                txtDistanciaRecorrida.Text = DistanciaRecorrida.ToString();
 
-            // Borra Imagen recorrido anterior
-            cargarImagenArgentina();
-            StopAnimation();
+                // Lista primer Provincia
+                txtListadoProv.Text += 0 + "- " + Recorrido[0].Nombre + "\r\n";
 
-            timer.Start();
+                txtTiempo.Text = tiempoTranscurrido.ToString() + " ms";
+                // Borra Imagen recorrido anterior
+                cargarImagenArgentina();
+                StopAnimation();
+
+                // Empieza animación
+                timer.Start();
+            }            
+
+            
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -304,6 +322,7 @@ namespace EjercicioViajante
             {
                 txtProvincia.Visible = false;
                 this._modo = MODO.GENETICO;
+                this.flpPropiedadesGeneticos.Visible = true;
             }
         }
 
@@ -313,6 +332,7 @@ namespace EjercicioViajante
             {
                 txtProvincia.Visible = false;
                 this._modo = MODO.EXHAUSTIVO;
+                this.flpPropiedadesGeneticos.Visible = false;
             }
         }
         private void rbHeuristico_CheckedChanged(object sender, EventArgs e)
@@ -321,6 +341,7 @@ namespace EjercicioViajante
             {
                 txtProvincia.Visible = true;
                 this._modo = MODO.HEURISTICO;
+                this.flpPropiedadesGeneticos.Visible = false;
             }
         }
         // Seleccionar provincia
@@ -341,6 +362,7 @@ namespace EjercicioViajante
             this.txtDistanciaRecorrida.Text = "";
             this.Recorrido = null;
             this.txtListadoProv.Text = "";
+            this.txtTiempo.Text = "";
             cargarImagenArgentina();
         }
         private void StopAnimation()
@@ -364,6 +386,21 @@ namespace EjercicioViajante
         private void trackBarVelocidad_Scroll(object sender, EventArgs e)
         {
             this.velocidad = trackBarVelocidad.Value;
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            if(Recorrido != null)
+            {
+                this.txtListadoProv.Text = "";
+                bw.CancelAsync();
+                StopAnimation();
+                cargarImagenArgentina();
+                txtListadoProv.Text += 0 + "- " + Recorrido[0].Nombre + "\r\n";
+                timer.Start();
+            }
+            
+
         }
     }
 }

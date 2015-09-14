@@ -24,7 +24,7 @@ namespace EjercicioViajante
             Provincia ultimaVisitada = provinciaInicial;
 
 
-            int cantProvincias = Algoritmo.Provincias.Count;
+            int cantProvincias = FormularioPrincipal.SIZE;
 
             int longitudRecorrido = 0;
 
