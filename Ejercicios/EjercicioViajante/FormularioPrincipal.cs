@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -31,7 +32,10 @@ namespace EjercicioViajante
         double hipotenusa;
 
         //        
+        private BackgroundWorker bw = new BackgroundWorker();
         List<Provincia> Recorrido { get; set; }
+        int DistanciaRecorrida;
+        double tiempoTranscurrido;
         enum MODO { EXHAUSTIVO, HEURISTICO, GENETICO }
         MODO _modo;
         Provincia _provinciaSeleccionada=null;
@@ -58,7 +62,11 @@ namespace EjercicioViajante
             // Agregar el evento para la animación
             timer.Tick += new EventHandler(OnTimer);
             timer.Interval = 1;
-            timer.Enabled = false; 
+            timer.Enabled = false;
+            // Configuracion backgroundd worker
+            bw.WorkerSupportsCancellation = true;
+            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
         }       
 
         private void OnTimer(object sender, EventArgs e)
@@ -120,26 +128,26 @@ namespace EjercicioViajante
             }
             
         }
-
-        private void btnGo_Click(object sender, EventArgs e)
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
-            
-            txtListadoProv.Text = null;
-            Algoritmo algoritmo = null;
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();          
+            BackgroundWorker worker = sender as BackgroundWorker;
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            Algoritmo algoritmo = null;
+                    
             switch (_modo)
             {
                 case MODO.EXHAUSTIVO:
                     {
                         algoritmo = new Genetico();
-                        Recorrido = algoritmo.getRecorrido(); 
+                        Recorrido = algoritmo.getRecorrido();
                         break;
                     }
                 case MODO.HEURISTICO:
                     {
-                        algoritmo = new Heuristico();                        
+                        algoritmo = new Heuristico();
                         if (_provinciaSeleccionada != null)
                         {
                             Recorrido = ((Heuristico)algoritmo).getRecorrido(_provinciaSeleccionada);
@@ -147,23 +155,37 @@ namespace EjercicioViajante
                         else
                         {
                             Recorrido = algoritmo.getRecorrido();
-                        }                       
-                                              
+                        }
+
                         break;
                     }
                 case MODO.GENETICO:
                     {
                         algoritmo = new Genetico();
-                        Recorrido = algoritmo.getRecorrido();                        
+                        Recorrido = ((Genetico)algoritmo).getRecorrido(bw);
                         break;
                     }
             }
             stopwatch.Stop();
-            txtTiempo.Text = (stopwatch.Elapsed.TotalMilliseconds).ToString() + " ms";
-            txtDistanciaRecorrida.Text = algoritmo.LongitudRecorrido.ToString();
+            DistanciaRecorrida = algoritmo.LongitudRecorrido;
+            tiempoTranscurrido = stopwatch.Elapsed.TotalMilliseconds;
 
+        }
+        private void btnGo_Click(object sender, EventArgs e)
+        {
+            bw.CancelAsync();
+            txtListadoProv.Text = null;
+            if (bw.IsBusy != true)
+            {
+                bw.RunWorkerAsync();
+            }
+        }
+        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            txtDistanciaRecorrida.Text = DistanciaRecorrida.ToString();
             // Lista primer Provincia
             txtListadoProv.Text += 0 + "- " + Recorrido[0].Nombre + "\r\n";
+            txtTiempo.Text = tiempoTranscurrido.ToString() + " ms";
 
             // Borra Imagen recorrido anterior
             cargarImagenArgentina();
@@ -312,6 +334,7 @@ namespace EjercicioViajante
         }
         private void Limpiar()
         {
+            bw.CancelAsync();
             StopAnimation();
             this._provinciaSeleccionada = null;
             this.txtProvincia.Text = "";

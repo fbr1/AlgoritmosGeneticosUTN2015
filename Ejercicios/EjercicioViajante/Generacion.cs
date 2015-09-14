@@ -9,14 +9,11 @@ namespace EjercicioViajante
 {
     class Generacion
     {
-        // Variables de clase
-        public static Random rnd;
-
         //Constants      
         public const int POBLACION_SIZE = 50;        
         public const double PROB_CROSSOVER = 0.75;
-        public const double PROB_MUTACION = 0.05;
-        public const int NRO_ELITE = 0; // Multiplo de 2
+        public const double PROB_MUTACION = 0.50;
+        public const int NRO_ELITE = 2; // Multiplo de 2
 
         //Variables        
         private double _suma = 0;
@@ -75,9 +72,34 @@ namespace EjercicioViajante
 
             //TODO elitismo
 
+            // Elitismo            
+
+            Individuo[] copia = new Individuo[poblacion.Length];
+            Array.Copy(poblacion, copia, poblacion.Length);
+
+
+            Individuo max1 = new Individuo();
+            Individuo max2 = new Individuo();
+            max1.Fitness = 0;
+            max2.Fitness = 0;
+            for (int i = 0; i < POBLACION_SIZE; i++)
+            {
+                if (copia[i].Fitness > max1.Fitness)
+                {
+                    max2 = max1;
+                    max1 = copia[i];
+                }
+                else if ((copia[i].Fitness != max1.Fitness) && (copia[i].Fitness > max2.Fitness))
+                {
+                    max2 = copia[i];
+                }
+            }
+            nuevaGeneracion[48] = max1;
+            nuevaGeneracion[49] = max2;
+
             this.Poblacion = nuevaGeneracion;
             this.GenerarPoblacion();
-            Debug.WriteLine(this.Minimo);
+            //Debug.WriteLine(this.Minimo+" "+ this.Maximo);
         }
             
         
@@ -98,7 +120,7 @@ namespace EjercicioViajante
             for (int i = 0; i < POBLACION_SIZE; i++)
             {
 
-                double random_number = Generacion.rnd.NextDouble() * fitnessAcumulado[fitnessAcumulado.Length - 1];
+                double random_number = RandomThreadSafe.NextDouble() * fitnessAcumulado[fitnessAcumulado.Length - 1];
 
                 // Busca coincidencia de el numero buscado al azar dentro de fitness acumulado
                 int indice = Array.BinarySearch(fitnessAcumulado, random_number);
@@ -118,7 +140,7 @@ namespace EjercicioViajante
             for (int i = 0; i < POBLACION_SIZE - NRO_ELITE; i += 2)
             {
                 // Si se da la chance de crossover
-                if (Generacion.rnd.NextDouble() <= PROB_CROSSOVER)
+                if (RandomThreadSafe.NextDouble() <= PROB_CROSSOVER)
                 {
                     int indicePrimerPadre = i;
                     int indiceSegundoPadre = i + 1;
@@ -171,10 +193,10 @@ namespace EjercicioViajante
         {
             for (int i = 0; i < POBLACION_SIZE - NRO_ELITE; i++)
             {
-                if (Generacion.rnd.NextDouble() < PROB_MUTACION)
+                if (RandomThreadSafe.NextDouble() < PROB_MUTACION)
                 {
-                    int numeroAleatorio1 = Generacion.rnd.Next(0, Individuo.CROMOSOMA_SIZE);
-                    int numeroAleatorio2 = Generacion.rnd.Next(0, Individuo.CROMOSOMA_SIZE);
+                    int numeroAleatorio1 = RandomThreadSafe.Next(0, Individuo.CROMOSOMA_SIZE);
+                    int numeroAleatorio2 = RandomThreadSafe.Next(0, Individuo.CROMOSOMA_SIZE);
                     Provincia temp = nuevaGeneracion[i].Cromosoma[numeroAleatorio1];
                     nuevaGeneracion[i].Cromosoma[numeroAleatorio1] = nuevaGeneracion[i].Cromosoma[numeroAleatorio2];
                     nuevaGeneracion[i].Cromosoma[numeroAleatorio2] = temp;
@@ -196,7 +218,7 @@ namespace EjercicioViajante
                 Individuo[] poblacion = new Individuo[POBLACION_SIZE];
                 for (int i = 0; i < poblacion.Length; i++)
                 {
-                    poblacion[i] = new Individuo(Generacion.rnd);
+                    poblacion[i] = new Individuo(0);
                 }
                 this.Poblacion = poblacion;
             }

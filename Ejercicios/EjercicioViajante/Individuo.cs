@@ -25,7 +25,7 @@ namespace EjercicioViajante
 
         }
         // Para la poblacion inicial
-        public Individuo(Random rnd)
+        public Individuo(int a)
             : this()
         {
             // Generar Cromosoma            
@@ -35,7 +35,7 @@ namespace EjercicioViajante
             // Genera lista aleatoria 
             for (int j = 0; j < Individuo.CROMOSOMA_SIZE; j++)
             {
-                provincias[j] = Generacion.rnd.NextDouble();
+                provincias[j] = RandomThreadSafe.NextDouble();
             }
             double[] provOrdenadas = new double[23];
             Array.Copy(provincias, provOrdenadas, provincias.Length);
