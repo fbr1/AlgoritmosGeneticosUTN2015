@@ -14,10 +14,10 @@ namespace EjercicioViajante
         // Constantes
 
         const int VACIO = 0;
-        public const int SIZE = 5;
+        public const int SIZE = 23;
         const string PROVINCIAS_DIR = "provincias.csv";
         const string ARGENTINA_IMG_DIR = "argentina.png";
-        const string DISTANCIAS_DIR = "asd.csv";
+        const string DISTANCIAS_DIR = "distancia.csv";
 
         // Variables para la Animación
 
