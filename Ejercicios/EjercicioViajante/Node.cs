@@ -37,8 +37,8 @@ namespace EjercicioViajante
                     Bloqueado[Provincias[i].ID] = true;
                     LowerBound += Algoritmo.Distancia[Provincias[i-1].ID, Provincias[i].ID];
                 }                
-                //LowerBound += minimo(Provincias[Longitud-1].ID);
-               // Bloqueado[0] = false;
+                LowerBound += minimo(Provincias[Longitud-1].ID);
+                Bloqueado[0] = false;
                 Bloqueado[Provincias[Longitud-1].ID] = true;
                 for(int i=1;i< FormularioPrincipal.SIZE; i++)
                 {

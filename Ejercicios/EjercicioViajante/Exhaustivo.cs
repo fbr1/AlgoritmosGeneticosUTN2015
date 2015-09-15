@@ -38,7 +38,7 @@ namespace EjercicioViajante
             while(!bw.CancellationPending && cola.Count > 0)
             {
                 Node siguiente = (Node)cola.First();
-                if(siguiente.Longitud == FormularioPrincipal.SIZE && siguiente.LowerBound < mejorDistanciaRecorrido)
+                if(siguiente.Longitud == FormularioPrincipal.SIZE -1 && siguiente.LowerBound < mejorDistanciaRecorrido)
                 {
                     mejorDistanciaRecorrido = siguiente.LowerBound;                    
                     mejorNodo = siguiente;                                       
@@ -89,7 +89,7 @@ namespace EjercicioViajante
             if(mejorNodo != null)
             {
                 Recorrido = mejorNodo.Provincias.ToList();
-                LongitudRecorrido = mejorDistanciaRecorrido + Algoritmo.Distancia[Recorrido.Last().ID, Recorrido.First().ID];
+                LongitudRecorrido = mejorDistanciaRecorrido;
                 Recorrido.Add(Recorrido[0]);
             }            
             
