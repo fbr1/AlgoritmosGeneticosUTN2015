@@ -26,17 +26,14 @@ namespace EjercicioViajante
         public List<Provincia> getRecorrido(BackgroundWorker bw)
         {
             Random random = new Random();
-            //List<Generacion> generaciones = new List<Generacion>();            
-            //Generacion.rnd = random;
-            //Generacion generacion = new Generacion(CICLOS, ref generaciones);
-            //int mindistancia = 999999999;
-
 
             int distanciaMin = int.MaxValue;
             Individuo individuo = null;
             List<Generacion> mejorgeneraciones = null;
 
             object sync = new object();
+
+            // For en paralelo distribuido entre los nucleos del procesador (no-optimo)
 
             Parallel.For<Tuple<int, Individuo, List<Generacion>>>(0, ITERACIONES,
                 () => new Tuple<int, Individuo, List<Generacion>>(int.MaxValue, null, null),
@@ -81,25 +78,6 @@ namespace EjercicioViajante
                     }
                 }
             );
-
-
-
-            //for (int j = 0; j < ITERACIONES; j++)
-            //{
-            //    if (bw.CancellationPending) break;
-            //    List<Generacion> generaciones = new List<Generacion>();
-            //    Generacion generacion = new Generacion(CICLOS, ref generaciones);
-            //    foreach (Individuo ind in generaciones.Last().Poblacion)
-            //    {
-            //        if (ind.FuncionObjetiva < distanciaMin)
-            //        {
-            //            individuo = ind;
-            //            distanciaMin = ind.FuncionObjetiva;
-            //            mejorgeneraciones = generaciones;
-            //        }
-            //    }
-            //}
-
 
             List <Provincia> recorrido = new List<Provincia>();
             foreach(Provincia prov in individuo.Cromosoma)

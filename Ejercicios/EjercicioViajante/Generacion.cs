@@ -71,9 +71,7 @@ namespace EjercicioViajante
 
             // Mutation
 
-            Mutacion(nuevaGeneracion);
-
-            //TODO elitismo
+            Mutacion(nuevaGeneracion);            
 
             // Elitismo            
 
@@ -102,7 +100,7 @@ namespace EjercicioViajante
 
             this.Poblacion = nuevaGeneracion;
             this.GenerarPoblacion();
-            //Debug.WriteLine(this.Minimo+" "+ this.Maximo);
+            
         }
             
         
@@ -251,35 +249,5 @@ namespace EjercicioViajante
             } 
             
         }
-       // Mutacion inversa
-       /* private void Mutar(int[] cromosoma, Random Generacion.rnd)
-        {
-            // Generar dos indices aleatorios
-            int comienzo = 0;
-            int fin = 0;
-
-            do
-            {
-                comienzo = Generacion.rnd.Next(0, cromosoma.Length);
-                fin = Generacion.rnd.Next(0, cromosoma.Length);
-            } while (comienzo == fin);
-
-            // Verificar orden
-            if (comienzo > fin)
-            {
-                int temp = comienzo;
-                comienzo = fin;
-                fin = temp;
-            }
-
-            // Mutar
-            int[] copia = new int[cromosoma.Length];
-            Array.Copy(cromosoma, copia, cromosoma.Length);
-            int diferencia = fin - comienzo;
-            for (int i = 0; i < diferencia; i++)
-            {
-                cromosoma[comienzo + i] = copia[(fin - 1) - i];
-            }
-        }*/
     }  
 }
