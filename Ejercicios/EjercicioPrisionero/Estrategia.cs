@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EjercicioPrisionero
 {
@@ -16,13 +14,6 @@ namespace EjercicioPrisionero
         public String Cadena { get; set; }
         public Int32 AñosAcumulado { get; set; }
         public String jugadaAnteriorOriginal { get; set; }
-
-        public List<Match> Matches { get; set; }
-
-        public Estrategia()
-        {
-            this.Matches = new List<Match>();
-        }
         
         public String getJugadaAnterior()
         {
@@ -39,15 +30,14 @@ namespace EjercicioPrisionero
             int[] resultado = TablaPremios[decision];
 
 
-            // Agrega la jugada a la lista de matches           
-            estX.Matches.Add(new Match(estX.Cadena, estY.Cadena, resultado));
+            // Acumula Años y Actualiza las cadenas  
+
             estX.Cadena = accionX + accionY + estX.Cadena.Substring(2, 4);
             estX.AñosAcumulado += resultado[0];
 
             estY.Cadena = accionY + accionX + estY.Cadena.Substring(2, 4);
             estY.AñosAcumulado += resultado[1];
-            Array.Reverse(resultado);
-            estY.Matches.Add(new Match(estY.Cadena, estX.Cadena, resultado)); 
+
             
         }
         public void reset()

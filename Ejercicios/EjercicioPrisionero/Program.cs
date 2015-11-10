@@ -30,9 +30,10 @@ namespace EjercicioPrisionero
             }            
             List<Estrategia> lista = estrategias.OrderByDescending(x => x.AñosAcumulado).ToList();
             int sum = 0;
+            Console.WriteLine("Cadena\tAños Acumulados\n");
             foreach (Estrategia est in lista)
             {
-                Console.WriteLine(est.Cadena + "-" + est.AñosAcumulado );
+                Console.WriteLine(est.Cadena + "\t" + est.AñosAcumulado );
                 sum += est.AñosAcumulado;
             }
             Console.ReadLine();
